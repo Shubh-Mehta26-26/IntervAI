@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc"><title id="title">IntervAI extended entity relationship diagram</title><desc id="desc">Extended database relationships for learning plans, career analyses, reports, recruiter applications, coding submissions, voice sessions and vision sessions.</desc>
+<defs><style>text{font-family:Arial,Helvetica,sans-serif;fill:#152344}.title{font-size:43px;font-weight:800}.subtitle{font-size:19px;fill:#52617b}.group{font-size:19px;font-weight:800;letter-spacing:.7px}.name{font-size:21px;font-weight:800;fill:#fff}.field{font-size:17px;fill:#384860}.card{stroke-width:2.2}.edge{fill:none;stroke:#57718b;stroke-width:3.1}.rel{font-size:16px;font-weight:700;fill:#355370}.note{font-size:17px;fill:#5b6880}</style></defs>
+<rect width="1920" height="1080" fill="#f5f7fb"/><rect x="22" y="18" width="1876" height="1044" rx="27" fill="white" stroke="#dce4ee" stroke-width="2"/><text x="62" y="81" class="title">INTERVAI — EXTENDED ER DIAGRAM</text><text x="64" y="115" class="subtitle">Learning, career, reporting, recruitment and optional interview modes</text>
+<text x="60" y="170" class="group" fill="#339363">LEARNING</text>
+<text x="535" y="170" class="group" fill="#c28322">CAREER &amp; REPORTING</text>
+<text x="1010" y="170" class="group" fill="#2b84b4">RECRUITING</text>
+<text x="1485" y="170" class="group" fill="#6b5cc0">INTERVIEW MODES</text>
+<path d="M247 528V570" class="edge"/>
+<text x="260" y="555" class="rel">1 : N</text>
+<path d="M247 718V760" class="edge"/>
+<text x="260" y="745" class="rel">1 : N</text>
+<path d="M60 265H37V645H60" class="edge"/>
+<text x="62" y="548" class="rel">1 : N</text>
+<path d="M722 338V380" class="edge"/>
+<text x="735" y="365" class="rel">1 : N</text>
+<path d="M535 265H510V645H535" class="edge"/>
+<text x="539" y="547" class="rel">1 : N</text>
+<path d="M722 718V760" class="edge"/>
+<text x="735" y="745" class="rel">1 : N</text>
+<path d="M1197 338V380" class="edge"/>
+<text x="1210" y="365" class="rel">1 : N</text>
+<path d="M1197 718V760" class="edge"/>
+<text x="1210" y="745" class="rel">1 : N</text>
+<path d="M1010 455H987V835H1010" class="edge"/>
+<text x="1016" y="742" class="rel">1 : N</text>
+<path d="M1672 338V380" class="edge"/>
+<text x="1685" y="365" class="rel">1 : N</text>
+<path d="M1485 265H1463V645H1485" class="edge"/>
+<text x="1490" y="548" class="rel">1 : 0..1</text>
+<path d="M1860 265H1883V835H1860" class="edge"/>
+<text x="1774" y="742" class="rel">1 : 0..1</text>
+<rect class="card" x="60" y="190" width="375" height="148" rx="17" fill="#eef8f1" stroke="#339363"/>
+<rect x="60" y="190" width="375" height="50" rx="17" fill="#339363"/><rect x="60" y="220" width="375" height="20" fill="#339363"/>
+<text x="78" y="224" class="name">knowledge_gaps</text>
+<text x="80" y="275" class="field">PK id · FK candidate_id</text>
+<text x="80" y="302" class="field">status, evidence_count</text>
+<rect class="card" x="60" y="380" width="375" height="148" rx="17" fill="#eef8f1" stroke="#339363"/>
+<rect x="60" y="380" width="375" height="50" rx="17" fill="#339363"/><rect x="60" y="410" width="375" height="20" fill="#339363"/>
+<text x="78" y="414" class="name">learning_plans</text>
+<text x="80" y="465" class="field">PK id · FK candidate_id</text>
+<text x="80" y="492" class="field">title, status</text>
+<rect class="card" x="60" y="570" width="375" height="148" rx="17" fill="#eef8f1" stroke="#339363"/>
+<rect x="60" y="570" width="375" height="50" rx="17" fill="#339363"/><rect x="60" y="600" width="375" height="20" fill="#339363"/>
+<text x="78" y="604" class="name">learning_targets</text>
+<text x="80" y="655" class="field">PK id · FK plan_id, gap_id</text>
+<text x="80" y="682" class="field">baseline evidence</text>
+<rect class="card" x="60" y="760" width="375" height="148" rx="17" fill="#eef8f1" stroke="#339363"/>
+<rect x="60" y="760" width="375" height="50" rx="17" fill="#339363"/><rect x="60" y="790" width="375" height="20" fill="#339363"/>
+<text x="78" y="794" class="name">learning_items</text>
+<text x="80" y="845" class="field">PK id · FK plan_id, target_id</text>
+<text x="80" y="872" class="field">title, content, status</text>
+<rect class="card" x="535" y="190" width="375" height="148" rx="17" fill="#fff7e9" stroke="#c28322"/>
+<rect x="535" y="190" width="375" height="50" rx="17" fill="#c28322"/><rect x="535" y="220" width="375" height="20" fill="#c28322"/>
+<text x="553" y="224" class="name">candidates</text>
+<text x="555" y="275" class="field">PK id · FK user_id</text>
+<text x="555" y="302" class="field">owner of private records</text>
+<rect class="card" x="535" y="380" width="375" height="148" rx="17" fill="#fff7e9" stroke="#c28322"/>
+<rect x="535" y="380" width="375" height="50" rx="17" fill="#c28322"/><rect x="535" y="410" width="375" height="20" fill="#c28322"/>
+<text x="553" y="414" class="name">career_analyses</text>
+<text x="555" y="465" class="field">PK id · FK candidate_id</text>
+<text x="555" y="492" class="field">version, result snapshot</text>
+<rect class="card" x="535" y="570" width="375" height="148" rx="17" fill="#fff7e9" stroke="#c28322"/>
+<rect x="535" y="570" width="375" height="50" rx="17" fill="#c28322"/><rect x="535" y="600" width="375" height="20" fill="#c28322"/>
+<text x="553" y="604" class="name">reports</text>
+<text x="555" y="655" class="field">PK id · FK candidate_id</text>
+<text x="555" y="682" class="field">FK interview_id; latest_version</text>
+<rect class="card" x="535" y="760" width="375" height="148" rx="17" fill="#fff7e9" stroke="#c28322"/>
+<rect x="535" y="760" width="375" height="50" rx="17" fill="#c28322"/><rect x="535" y="790" width="375" height="20" fill="#c28322"/>
+<text x="553" y="794" class="name">report_versions</text>
+<text x="555" y="845" class="field">PK id · FK report_id</text>
+<text x="555" y="872" class="field">version, immutable snapshot</text>
+<rect class="card" x="1010" y="190" width="375" height="148" rx="17" fill="#eef8ff" stroke="#2b84b4"/>
+<rect x="1010" y="190" width="375" height="50" rx="17" fill="#2b84b4"/><rect x="1010" y="220" width="375" height="20" fill="#2b84b4"/>
+<text x="1028" y="224" class="name">users</text>
+<text x="1030" y="275" class="field">PK id · role</text>
+<text x="1030" y="302" class="field">candidate / recruiter / admin</text>
+<rect class="card" x="1010" y="380" width="375" height="148" rx="17" fill="#eef8ff" stroke="#2b84b4"/>
+<rect x="1010" y="380" width="375" height="50" rx="17" fill="#2b84b4"/><rect x="1010" y="410" width="375" height="20" fill="#2b84b4"/>
+<text x="1028" y="414" class="name">recruiter_jobs</text>
+<text x="1030" y="465" class="field">PK id · FK recruiter_user_id</text>
+<text x="1030" y="492" class="field">title, company, status</text>
+<rect class="card" x="1010" y="570" width="375" height="148" rx="17" fill="#eef8ff" stroke="#2b84b4"/>
+<rect x="1010" y="570" width="375" height="50" rx="17" fill="#2b84b4"/><rect x="1010" y="600" width="375" height="20" fill="#2b84b4"/>
+<text x="1028" y="604" class="name">job_descriptions</text>
+<text x="1030" y="655" class="field">PK id · FK candidate_id</text>
+<text x="1030" y="682" class="field">candidate-owned job copy</text>
+<rect class="card" x="1010" y="760" width="375" height="148" rx="17" fill="#eef8ff" stroke="#2b84b4"/>
+<rect x="1010" y="760" width="375" height="50" rx="17" fill="#2b84b4"/><rect x="1010" y="790" width="375" height="20" fill="#2b84b4"/>
+<text x="1028" y="794" class="name">recruiter_applications</text>
+<text x="1030" y="845" class="field">PK id · FK recruiter_job_id</text>
+<text x="1030" y="872" class="field">FK candidate_id, candidate_job_id</text>
+<rect class="card" x="1485" y="190" width="375" height="148" rx="17" fill="#f3f0ff" stroke="#6b5cc0"/>
+<rect x="1485" y="190" width="375" height="50" rx="17" fill="#6b5cc0"/><rect x="1485" y="220" width="375" height="20" fill="#6b5cc0"/>
+<text x="1503" y="224" class="name">interviews</text>
+<text x="1505" y="275" class="field">PK id · FK candidate_id</text>
+<text x="1505" y="302" class="field">status, revision</text>
+<rect class="card" x="1485" y="380" width="375" height="148" rx="17" fill="#f3f0ff" stroke="#6b5cc0"/>
+<rect x="1485" y="380" width="375" height="50" rx="17" fill="#6b5cc0"/><rect x="1485" y="410" width="375" height="20" fill="#6b5cc0"/>
+<text x="1503" y="414" class="name">coding_submissions</text>
+<text x="1505" y="465" class="field">PK id · FK interview_id</text>
+<text x="1505" y="492" class="field">FK question_id; result</text>
+<rect class="card" x="1485" y="570" width="375" height="148" rx="17" fill="#f3f0ff" stroke="#6b5cc0"/>
+<rect x="1485" y="570" width="375" height="50" rx="17" fill="#6b5cc0"/><rect x="1485" y="600" width="375" height="20" fill="#6b5cc0"/>
+<text x="1503" y="604" class="name">voice_sessions</text>
+<text x="1505" y="655" class="field">PK id · FK interview_id</text>
+<text x="1505" y="682" class="field">state, revision</text>
+<rect class="card" x="1485" y="760" width="375" height="148" rx="17" fill="#f3f0ff" stroke="#6b5cc0"/>
+<rect x="1485" y="760" width="375" height="50" rx="17" fill="#6b5cc0"/><rect x="1485" y="790" width="375" height="20" fill="#6b5cc0"/>
+<text x="1503" y="794" class="name">vision_sessions</text>
+<text x="1505" y="845" class="field">PK id · FK interview_id</text>
+<text x="1505" y="872" class="field">enabled, sequence</text>
+<rect x="60" y="953" width="1800" height="68" rx="14" fill="#f1f5fa" stroke="#dce4ee"/><text x="84" y="982" class="note">PK = primary key · FK = foreign key · N = many. A candidate can have many analyses, learning plans and reports; each report has versioned snapshots.</text><text x="84" y="1006" class="note">Optional voice and vision sessions are separate from answer grading. Recruiter access depends on a candidate's consented application.</text></svg>

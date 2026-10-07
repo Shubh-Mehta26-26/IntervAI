@@ -1,0 +1,20 @@
+export type LearningItem = {
+  id: string; plan_id: string; ordinal: number; title: string; topic: string; concept: string;
+  objective: string; order_reason: string; difficulty: number; effort_minutes: number;
+  content_revision: number; status: string;
+  content: { explanation: string; examples: string[]; practice_question: string; hints: string[];
+    grounding_status: string; sources: { chunk_id: string; title: string; source: string; content: string }[] };
+};
+export type Comparison = { gap_id: string; subject: string; before: Record<string, number | null>;
+  after: Record<string, number | null>; delta: Record<string, number | null>;
+  baseline_evidence_ids: string[]; retry_evidence_ids: string[]; retry_count: number; gap_status: string };
+export type Attempt = { id: string; kind: string; plan_id: string | null; item_id: string | null;
+  interview_id: string; parent_interview_id: string | null; status: string; created_at: string;
+  comparison: { targets: Comparison[]; note: string } | null };
+export type LearningPlan = { id: string; job_id: string | null; title: string; objective: string; status: string; revision: number;
+  priority: number; priority_reasons: string[]; created_at: string; stale: boolean;
+  progress: { completed: number; total: number }; items: LearningItem[];
+  targets: { gap_id: string; memory_id: string; reasons: string[] }[]; attempts: Attempt[];
+  actions: { kind: string; reason: string; created_at: string }[] };
+export type Recommendation = { gap_id: string; subject: string; topic: string; kind: string; status: string; priority: number; reasons: string[] };
+export type LearningProgress = { plans: LearningPlan[]; recommendations: Recommendation[]; attempts: Attempt[]; note: string };

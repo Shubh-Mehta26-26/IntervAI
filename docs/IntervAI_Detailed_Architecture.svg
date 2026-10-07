@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+<title id="title">IntervAI detailed architecture diagram</title><desc id="desc">Five-stage architecture: candidate data inputs, processing and context, adaptive interview engine, feedback and growth, and web application. The foundation includes Next.js and FastAPI, PostgreSQL with pgvector and a durable job queue, a background worker, configurable AI and speech providers, and an isolated code runner.</desc>
+<defs><style>text{font-family:Arial,Helvetica,sans-serif;fill:#122145}.title{font-size:43px;font-weight:800}.subtitle{font-size:20px;fill:#516079}.stitle{font-size:24px;font-weight:750}.cardtitle{font-size:20px;font-weight:700}.body{font-size:17px;fill:#3a4762}.footerhead{font-size:22px;font-weight:750}.footerbody{font-size:17px;fill:#3a4762}.num{font-size:21px;font-weight:800;fill:white}.note{font-size:17px;fill:#5d6980}</style><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#334d70"/></marker></defs>
+<rect width="1920" height="1080" fill="#f4f6fa"/><rect x="20" y="18" width="1880" height="1044" rx="28" fill="white" stroke="#dce3ee" stroke-width="2"/>
+<text x="54" y="78" class="title">INTERVAI — ARCHITECTURE DIAGRAM</text><text x="56" y="112" class="subtitle">A detailed view of how candidate data becomes adaptive interviews, evidence-based feedback and career guidance</text>
+<line x1="54" y1="138" x2="1866" y2="138" stroke="#dae3ef" stroke-width="2"/>
+<rect x="42" y="170" width="332" height="648" rx="19" fill="#ecf8ef" stroke="#aadbb8" stroke-width="2"/>
+<circle cx="76" cy="207" r="22" fill="#2f9258"/><text x="76" y="214" class="num" text-anchor="middle">1</text>
+<text x="110" y="217" class="stitle">Data Inputs</text>
+<rect x="54" y="264" width="308" height="116" rx="14" fill="#ffffff" stroke="#aadbb8" stroke-width="1.5"/>
+<rect x="54" y="264" width="7" height="116" rx="3" fill="#2f9258"/>
+<text x="72" y="298" class="cardtitle">Candidate profile</text>
+<text x="72" y="328" class="body">Experience, skills, target roles</text>
+<text x="72" y="352" class="body">and interview preferences</text>
+<path d="M208 382V396" stroke="#2f9258" stroke-width="2.5" marker-end="url(#arr)"/>
+<rect x="54" y="400" width="308" height="116" rx="14" fill="#ffffff" stroke="#aadbb8" stroke-width="1.5"/>
+<rect x="54" y="400" width="7" height="116" rx="3" fill="#2f9258"/>
+<text x="72" y="434" class="cardtitle">Resume upload</text>
+<text x="72" y="464" class="body">PDF / DOCX with projects,</text>
+<text x="72" y="488" class="body">education and work history</text>
+<path d="M208 518V532" stroke="#2f9258" stroke-width="2.5" marker-end="url(#arr)"/>
+<rect x="54" y="536" width="308" height="116" rx="14" fill="#ffffff" stroke="#aadbb8" stroke-width="1.5"/>
+<rect x="54" y="536" width="7" height="116" rx="3" fill="#2f9258"/>
+<text x="72" y="570" class="cardtitle">Target job</text>
+<text x="72" y="600" class="body">Job description and its</text>
+<text x="72" y="624" class="body">required / preferred skills</text>
+<path d="M208 654V668" stroke="#2f9258" stroke-width="2.5" marker-end="url(#arr)"/>
+<rect x="54" y="672" width="308" height="116" rx="14" fill="#ffffff" stroke="#aadbb8" stroke-width="1.5"/>
+<rect x="54" y="672" width="7" height="116" rx="3" fill="#2f9258"/>
+<text x="72" y="706" class="cardtitle">Interview responses</text>
+<text x="72" y="736" class="body">Typed answers, voice turns</text>
+<text x="72" y="760" class="body">and coding submissions</text>
+<path d="M378 520H414" fill="none" stroke="#334d70" stroke-width="3.5" marker-end="url(#arr)"/>
+<rect x="418" y="170" width="332" height="648" rx="19" fill="#fff3eb" stroke="#efc5a8" stroke-width="2"/>
+<circle cx="452" cy="207" r="22" fill="#c87442"/><text x="452" y="214" class="num" text-anchor="middle">2</text>
+<text x="486" y="204" class="stitle">Processing &amp;</text>
+<text x="486" y="231" class="stitle">Context</text>
+<rect x="430" y="264" width="308" height="116" rx="14" fill="#ffffff" stroke="#efc5a8" stroke-width="1.5"/>
+<rect x="430" y="264" width="7" height="116" rx="3" fill="#c87442"/>
+<text x="448" y="298" class="cardtitle">Validate &amp; protect</text>
+<text x="448" y="328" class="body">Check files and permissions;</text>
+<text x="448" y="352" class="body">keep records candidate-owned</text>
+<path d="M584 382V396" stroke="#c87442" stroke-width="2.5" marker-end="url(#arr)"/>
+<rect x="430" y="400" width="308" height="116" rx="14" fill="#ffffff" stroke="#efc5a8" stroke-width="1.5"/>
+<rect x="430" y="400" width="7" height="116" rx="3" fill="#c87442"/>
+<text x="448" y="434" class="cardtitle">Resume parser</text>
+<text x="448" y="464" class="body">Extract text, skills, facts</text>
+<text x="448" y="488" class="body">and source evidence</text>
+<path d="M584 518V532" stroke="#c87442" stroke-width="2.5" marker-end="url(#arr)"/>
+<rect x="430" y="536" width="308" height="116" rx="14" fill="#ffffff" stroke="#efc5a8" stroke-width="1.5"/>
+<rect x="430" y="536" width="7" height="116" rx="3" fill="#c87442"/>
+<text x="448" y="570" class="cardtitle">Job analyzer</text>
+<text x="448" y="600" class="body">Identify role requirements</text>
+<text x="448" y="624" class="body">and skill evidence</text>
+<path d="M584 654V668" stroke="#c87442" stroke-width="2.5" marker-end="url(#arr)"/>
+<rect x="430" y="672" width="308" height="116" rx="14" fill="#ffffff" stroke="#efc5a8" stroke-width="1.5"/>
+<rect x="430" y="672" width="7" height="116" rx="3" fill="#c87442"/>
+<text x="448" y="706" class="cardtitle">Match builder</text>
+<text x="448" y="736" class="body">Compare resume with job;</text>
+<text x="448" y="760" class="body">show matches and gaps</text>
+<path d="M754 520H790" fill="none" stroke="#334d70" stroke-width="3.5" marker-end="url(#arr)"/>
+<rect x="794" y="170" width="332" height="648" rx="19" fill="#f1efff" stroke="#c6bdf6" stroke-width="2"/>
+<circle cx="828" cy="207" r="22" fill="#6c5ac4"/><text x="828" y="214" class="num" text-anchor="middle">3</text>
+<text x="862" y="204" class="stitle">Adaptive Interview</text>
+<text x="862" y="231" class="stitle">Engine</text>
+<rect x="806" y="264" width="308" height="116" rx="14" fill="#ffffff" stroke="#c6bdf6" stroke-width="1.5"/>
+<rect x="806" y="264" width="7" height="116" rx="3" fill="#6c5ac4"/>
+<text x="824" y="298" class="cardtitle">Plan the interview</text>
+<text x="824" y="328" class="body">Set topics, question count</text>
+<text x="824" y="352" class="body">and starting difficulty</text>
+<path d="M960 382V396" stroke="#6c5ac4" stroke-width="2.5" marker-end="url(#arr)"/>
+<rect x="806" y="400" width="308" height="116" rx="14" fill="#ffffff" stroke="#c6bdf6" stroke-width="1.5"/>
+<rect x="806" y="400" width="7" height="116" rx="3" fill="#6c5ac4"/>
+<text x="824" y="434" class="cardtitle">Generate questions</text>
+<text x="824" y="464" class="body">Role-based technical, project</text>
+<text x="824" y="488" class="body">and behavioural prompts</text>
+<path d="M960 518V532" stroke="#6c5ac4" stroke-width="2.5" marker-end="url(#arr)"/>
+<rect x="806" y="536" width="308" height="116" rx="14" fill="#ffffff" stroke="#c6bdf6" stroke-width="1.5"/>
+<rect x="806" y="536" width="7" height="116" rx="3" fill="#6c5ac4"/>
+<text x="824" y="570" class="cardtitle">Evaluate with RAG</text>
+<text x="824" y="600" class="body">Use retrieved sources and</text>
+<text x="824" y="624" class="body">six answer dimensions</text>
+<path d="M960 654V668" stroke="#6c5ac4" stroke-width="2.5" marker-end="url(#arr)"/>
+<rect x="806" y="672" width="308" height="116" rx="14" fill="#ffffff" stroke="#c6bdf6" stroke-width="1.5"/>
+<rect x="806" y="672" width="7" height="116" rx="3" fill="#6c5ac4"/>
+<text x="824" y="706" class="cardtitle">Adapt next question</text>
+<text x="824" y="736" class="body">Python policy selects follow-up,</text>
+<text x="824" y="760" class="body">topic or difficulty</text>
+<path d="M1130 520H1166" fill="none" stroke="#334d70" stroke-width="3.5" marker-end="url(#arr)"/>
+<rect x="1170" y="170" width="332" height="648" rx="19" fill="#fff8e6" stroke="#ead69b" stroke-width="2"/>
+<circle cx="1204" cy="207" r="22" fill="#bd861b"/><text x="1204" y="214" class="num" text-anchor="middle">4</text>
+<text x="1238" y="204" class="stitle">Feedback &amp;</text>
+<text x="1238" y="231" class="stitle">Growth</text>
+<rect x="1182" y="264" width="308" height="116" rx="14" fill="#ffffff" stroke="#ead69b" stroke-width="1.5"/>
+<rect x="1182" y="264" width="7" height="116" rx="3" fill="#bd861b"/>
+<text x="1200" y="298" class="cardtitle">Candidate memory</text>
+<text x="1200" y="328" class="body">Store skill evidence, gaps</text>
+<text x="1200" y="352" class="body">and misconceptions</text>
+<path d="M1336 382V396" stroke="#bd861b" stroke-width="2.5" marker-end="url(#arr)"/>
+<rect x="1182" y="400" width="308" height="116" rx="14" fill="#ffffff" stroke="#ead69b" stroke-width="1.5"/>
+<rect x="1182" y="400" width="7" height="116" rx="3" fill="#bd861b"/>
+<text x="1200" y="434" class="cardtitle">Learning &amp; retry</text>
+<text x="1200" y="464" class="body">Create lessons, practice tasks</text>
+<text x="1200" y="488" class="body">and focused repeat interviews</text>
+<path d="M1336 518V532" stroke="#bd861b" stroke-width="2.5" marker-end="url(#arr)"/>
+<rect x="1182" y="536" width="308" height="116" rx="14" fill="#ffffff" stroke="#ead69b" stroke-width="1.5"/>
+<rect x="1182" y="536" width="7" height="116" rx="3" fill="#bd861b"/>
+<text x="1200" y="570" class="cardtitle">Career guidance</text>
+<text x="1200" y="600" class="body">Compare roles, explain readiness</text>
+<text x="1200" y="624" class="body">and save roadmap choices</text>
+<path d="M1336 654V668" stroke="#bd861b" stroke-width="2.5" marker-end="url(#arr)"/>
+<rect x="1182" y="672" width="308" height="116" rx="14" fill="#ffffff" stroke="#ead69b" stroke-width="1.5"/>
+<rect x="1182" y="672" width="7" height="116" rx="3" fill="#bd861b"/>
+<text x="1200" y="706" class="cardtitle">Reports &amp; analytics</text>
+<text x="1200" y="736" class="body">Evidence-based PDF reports</text>
+<text x="1200" y="760" class="body">and progress trends</text>
+<path d="M1506 520H1542" fill="none" stroke="#334d70" stroke-width="3.5" marker-end="url(#arr)"/>
+<rect x="1546" y="170" width="332" height="648" rx="19" fill="#edf8ff" stroke="#a5d4ec" stroke-width="2"/>
+<circle cx="1580" cy="207" r="22" fill="#277eaf"/><text x="1580" y="214" class="num" text-anchor="middle">5</text>
+<text x="1614" y="217" class="stitle">Web Application</text>
+<rect x="1558" y="264" width="308" height="116" rx="14" fill="#ffffff" stroke="#a5d4ec" stroke-width="1.5"/>
+<rect x="1558" y="264" width="7" height="116" rx="3" fill="#277eaf"/>
+<text x="1576" y="298" class="cardtitle">Candidate portal</text>
+<text x="1576" y="328" class="body">Profile, resume, jobs,</text>
+<text x="1576" y="352" class="body">learning and career pages</text>
+<path d="M1712 382V396" stroke="#277eaf" stroke-width="2.5" marker-end="url(#arr)"/>
+<rect x="1558" y="400" width="308" height="116" rx="14" fill="#ffffff" stroke="#a5d4ec" stroke-width="1.5"/>
+<rect x="1558" y="400" width="7" height="116" rx="3" fill="#277eaf"/>
+<text x="1576" y="434" class="cardtitle">Interview room</text>
+<text x="1576" y="464" class="body">Text, voice, coding and</text>
+<text x="1576" y="488" class="body">optional camera controls</text>
+<path d="M1712 518V532" stroke="#277eaf" stroke-width="2.5" marker-end="url(#arr)"/>
+<rect x="1558" y="536" width="308" height="116" rx="14" fill="#ffffff" stroke="#a5d4ec" stroke-width="1.5"/>
+<rect x="1558" y="536" width="7" height="116" rx="3" fill="#277eaf"/>
+<text x="1576" y="570" class="cardtitle">Recruiter workspace</text>
+<text x="1576" y="600" class="body">Manage jobs; review only</text>
+<text x="1576" y="624" class="body">consented applications</text>
+<path d="M1712 654V668" stroke="#277eaf" stroke-width="2.5" marker-end="url(#arr)"/>
+<rect x="1558" y="672" width="308" height="116" rx="14" fill="#ffffff" stroke="#a5d4ec" stroke-width="1.5"/>
+<rect x="1558" y="672" width="7" height="116" rx="3" fill="#277eaf"/>
+<text x="1576" y="706" class="cardtitle">Admin console</text>
+<text x="1576" y="736" class="body">System status, user roles</text>
+<text x="1576" y="760" class="body">and audit history</text>
+<text x="52" y="853" class="footerhead">PLATFORM FOUNDATION</text>
+<rect x="42" y="871" width="584" height="141" rx="17" fill="#edf8ff" stroke="#9fd2ee" stroke-width="2"/>
+<text x="64" y="910" class="footerhead">Web and API</text>
+<text x="64" y="943" class="footerbody">Next.js / React UI → fixed API proxy → FastAPI</text>
+<text x="64" y="969" class="footerbody">Sessions, role/owner checks, REST services</text>
+<rect x="668" y="871" width="584" height="141" rx="17" fill="#ecf8ef" stroke="#aadbb8" stroke-width="2"/>
+<text x="690" y="910" class="footerhead">Data and background jobs</text>
+<text x="690" y="943" class="footerbody">PostgreSQL 17 + pgvector; private resume storage</text>
+<text x="690" y="969" class="footerbody">Durable job queue and separate worker</text>
+<rect x="1294" y="871" width="584" height="141" rx="17" fill="#f1efff" stroke="#c6bdf6" stroke-width="2"/>
+<text x="1316" y="910" class="footerhead">Models and isolated execution</text>
+<text x="1316" y="943" class="footerbody">Gemini or OpenAI; local Vosk / eSpeak NG</text>
+<text x="1316" y="969" class="footerbody">Python, C++ and Java run in a restricted sandbox</text>
+<text x="54" y="1045" class="note">The columns show the logical workflow. Users interact through the web application; the browser never accesses the database, provider keys or code runner directly.</text>
+</svg>

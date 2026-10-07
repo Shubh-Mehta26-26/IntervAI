@@ -1,0 +1,1 @@
+export default function Loading() { return <div className="page-loading" role="status"><div className="loading-bar" /><h2>Getting your workspace ready…</h2><p>Your saved information is on its way.</p></div>; }

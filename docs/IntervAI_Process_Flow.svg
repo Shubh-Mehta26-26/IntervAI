@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+<title id="title">IntervAI process flow diagram</title><desc id="desc">Candidates sign in, add their profile, resume and job description, review matching, and configure an interview. The system plans and generates a question. The candidate answers using text, voice or code. Grounded evaluation and coding tests inform a deterministic adaptive decision. If more questions remain the process loops; otherwise it saves an interview summary, evidence memory and gaps, learning plans and reports.</desc>
+<defs><style>text{font-family:Arial,Helvetica,sans-serif;fill:#132346}.title{font-size:44px;font-weight:800}.subtitle{font-size:19px;fill:#52617b}.band{font-size:19px;font-weight:800;letter-spacing:1.2px;fill:#3b5274}.heading{font-size:24px;font-weight:750}.body{font-size:18px;fill:#3d4b66}.small{font-size:16px;fill:#5c6980}.chip{font-size:17px;font-weight:800;fill:white}.label{font-size:18px;font-weight:700;fill:#26516d}.arrow{fill:none;stroke:#315572;stroke-width:4;marker-end:url(#head)}.loop{fill:none;stroke:#7a5bbb;stroke-width:4;marker-end:url(#loophead)}</style><marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#315572"/></marker><marker id="loophead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#7a5bbb"/></marker></defs>
+<rect width="1920" height="1080" fill="#f5f7fb"/><rect x="22" y="18" width="1876" height="1044" rx="27" fill="white" stroke="#dce4f0" stroke-width="2"/>
+<text x="65" y="81" class="title">INTERVAI — PROCESS FLOW DIAGRAM</text><text x="67" y="116" class="subtitle">Candidate preparation → adaptive interview loop → evidence-based outcomes</text>
+<text x="67" y="158" class="band">1 · PREPARATION</text><text x="67" y="420" class="band">2 · INTERVIEW LOOP</text><text x="67" y="750" class="band">3 · AFTER THE INTERVIEW</text>
+<rect x="60" y="184" width="360" height="124" rx="17" fill="#edf8ef" stroke="#3b9b60" stroke-width="2.4"/>
+<circle cx="90" cy="217" r="19" fill="#3b9b60"/><text x="90" y="223" class="chip" text-anchor="middle">1</text>
+<text x="120" y="225" class="heading">Sign in &amp; profile</text>
+<text x="88" y="261" class="body">Account, experience, goals</text>
+<text x="88" y="287" class="body">and interview preferences</text>
+<rect x="540" y="184" width="360" height="124" rx="17" fill="#edf8ef" stroke="#3b9b60" stroke-width="2.4"/>
+<circle cx="570" cy="217" r="19" fill="#3b9b60"/><text x="570" y="223" class="chip" text-anchor="middle">2</text>
+<text x="600" y="225" class="heading">Resume &amp; target job</text>
+<text x="568" y="261" class="body">Upload PDF / DOCX; enter</text>
+<text x="568" y="287" class="body">the target job description</text>
+<rect x="1020" y="184" width="360" height="124" rx="17" fill="#fff4ea" stroke="#d78149" stroke-width="2.4"/>
+<circle cx="1050" cy="217" r="19" fill="#d78149"/><text x="1050" y="223" class="chip" text-anchor="middle">3</text>
+<text x="1080" y="225" class="heading">Analyze &amp; match</text>
+<text x="1048" y="261" class="body">Extract skills and evidence;</text>
+<text x="1048" y="287" class="body">compare with job requirements</text>
+<rect x="1500" y="184" width="360" height="124" rx="17" fill="#fff4ea" stroke="#d78149" stroke-width="2.4"/>
+<circle cx="1530" cy="217" r="19" fill="#d78149"/><text x="1530" y="223" class="chip" text-anchor="middle">4</text>
+<text x="1560" y="225" class="heading">Configure interview</text>
+<text x="1528" y="261" class="body">Choose type, mode, topics,</text>
+<text x="1528" y="287" class="body">difficulty and question count</text>
+<rect x="1500" y="450" width="360" height="150" rx="17" fill="#f2efff" stroke="#7661c8" stroke-width="2.4"/>
+<circle cx="1530" cy="483" r="19" fill="#7661c8"/><text x="1530" y="489" class="chip" text-anchor="middle">5</text>
+<text x="1560" y="491" class="heading">Plan &amp; ask question</text>
+<text x="1528" y="527" class="body">Worker plans once, then</text>
+<text x="1528" y="553" class="body">generates each role-based</text>
+<text x="1528" y="579" class="body">question using the LLM</text>
+<rect x="1020" y="450" width="360" height="150" rx="17" fill="#edf8ff" stroke="#3186b8" stroke-width="2.4"/>
+<circle cx="1050" cy="483" r="19" fill="#3186b8"/><text x="1050" y="489" class="chip" text-anchor="middle">6</text>
+<text x="1080" y="491" class="heading">Candidate answers</text>
+<text x="1048" y="527" class="body">Type, review a voice transcript,</text>
+<text x="1048" y="553" class="body">or write and submit code</text>
+<text x="1048" y="579" class="body">in the interview room</text>
+<rect x="540" y="450" width="360" height="150" rx="17" fill="#fff8e9" stroke="#ca911f" stroke-width="2.4"/>
+<circle cx="570" cy="483" r="19" fill="#ca911f"/><text x="570" y="489" class="chip" text-anchor="middle">7</text>
+<text x="600" y="491" class="heading">Evaluate answer</text>
+<text x="568" y="527" class="body">RAG-grounded six-part rubric;</text>
+<text x="568" y="553" class="body">code is checked by the</text>
+<text x="568" y="579" class="body">isolated execution service</text>
+<polygon points="240,440 405,525 240,610 75,525" fill="#f2efff" stroke="#7661c8" stroke-width="3"/>
+<circle cx="240" cy="487" r="18" fill="#7661c8"/><text x="240" y="493" class="chip" text-anchor="middle">8</text>
+<text x="240" y="529" class="heading" text-anchor="middle">More questions?</text><text x="240" y="557" class="small" text-anchor="middle">adaptive policy decides</text>
+<rect x="60" y="780" width="360" height="140" rx="17" fill="#eaf8f2" stroke="#349467" stroke-width="2.4"/>
+<circle cx="90" cy="813" r="19" fill="#349467"/><text x="90" y="819" class="chip" text-anchor="middle">9</text>
+<text x="120" y="821" class="heading">Complete interview</text>
+<text x="88" y="857" class="body">Save answers, evaluations</text>
+<text x="88" y="883" class="body">and completion summary</text>
+<rect x="540" y="780" width="360" height="140" rx="17" fill="#eaf8f2" stroke="#349467" stroke-width="2.4"/>
+<circle cx="570" cy="813" r="19" fill="#349467"/><text x="570" y="819" class="chip" text-anchor="middle">10</text>
+<text x="600" y="821" class="heading">Review memory &amp; gaps</text>
+<text x="568" y="857" class="body">Inspect skill evidence,</text>
+<text x="568" y="883" class="body">misconceptions and weak topics</text>
+<rect x="1020" y="780" width="360" height="140" rx="17" fill="#fff8e9" stroke="#ca911f" stroke-width="2.4"/>
+<circle cx="1050" cy="813" r="19" fill="#ca911f"/><text x="1050" y="819" class="chip" text-anchor="middle">11</text>
+<text x="1080" y="821" class="heading">Learning &amp; retry</text>
+<text x="1048" y="857" class="body">Recommend focused lessons,</text>
+<text x="1048" y="883" class="body">practice and repeat interviews</text>
+<rect x="1500" y="780" width="360" height="140" rx="17" fill="#edf8ff" stroke="#3186b8" stroke-width="2.4"/>
+<circle cx="1530" cy="813" r="19" fill="#3186b8"/><text x="1530" y="819" class="chip" text-anchor="middle">12</text>
+<text x="1560" y="821" class="heading">Reports &amp; career</text>
+<text x="1528" y="857" class="body">View analytics, PDF report,</text>
+<text x="1528" y="883" class="body">role readiness and roadmap</text>
+<path class="arrow" d="M420 246H540"/>
+<path class="arrow" d="M900 246H1020"/>
+<path class="arrow" d="M1380 246H1500"/>
+<path class="arrow" d="M1680 308V450"/>
+<path class="arrow" d="M1500 525H1380"/><path class="arrow" d="M1020 525H900"/><path class="arrow" d="M540 525H405"/>
+<path class="loop" d="M240 440V370H1524V450"/>
+<rect x="638" y="344" width="290" height="35" rx="17" fill="#f2efff"/><text x="783" y="368" class="label" text-anchor="middle">YES · adapt and ask next</text>
+<path class="arrow" d="M240 610V780"/>
+<rect x="252" y="677" width="116" height="36" rx="18" fill="#edf8ef"/><text x="310" y="702" class="label" text-anchor="middle">NO · finish</text>
+<path class="arrow" d="M420 850H540"/>
+<path class="arrow" d="M900 850H1020"/>
+<path class="arrow" d="M1380 850H1500"/>
+<rect x="60" y="953" width="1800" height="64" rx="16" fill="#f1f5fa" stroke="#d8e3ee"/>
+<text x="89" y="981" class="small">Resume and job context is optional. Accepted evaluations update skill memory during the loop; records and durable jobs are stored in PostgreSQL.</text>
+<text x="89" y="1004" class="small">Candidates may pause, resume, finish early or cancel. Voice, camera and AI provider features depend on configuration and permission.</text>
+</svg>

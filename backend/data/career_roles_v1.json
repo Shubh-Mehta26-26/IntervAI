@@ -1,0 +1,797 @@
+[
+  {
+    "slug": "software-engineer",
+    "name": "Software Engineer",
+    "description": "Design, implement, test, and maintain software.",
+    "requirements": [
+      {
+        "skill": "Python",
+        "aliases": [
+          "python"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Data Structures",
+        "aliases": [
+          "data structures",
+          "arrays",
+          "hash tables",
+          "binary search"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Software Testing",
+        "aliases": [
+          "Software Testing"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "System Design",
+        "aliases": [
+          "System Design"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Git",
+        "aliases": [
+          "Git"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      }
+    ],
+    "responsibilities": [
+      "Design, implement, test, and maintain software."
+    ],
+    "version": 1,
+    "provenance": {
+      "kind": "project_authored",
+      "source": "IntervAI career-roles-v1",
+      "scope": "Illustrative exploration taxonomy; not universal hiring requirements or verified labour-market data."
+    }
+  },
+  {
+    "slug": "backend-engineer",
+    "name": "Backend Engineer",
+    "description": "Build services, database interactions, and reliable APIs.",
+    "requirements": [
+      {
+        "skill": "Python",
+        "aliases": [
+          "python"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "SQL",
+        "aliases": [
+          "sql",
+          "dbms",
+          "databases"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": [
+          "normalization",
+          "transactions",
+          "indexing",
+          "deadlocks"
+        ]
+      },
+      {
+        "skill": "APIs",
+        "aliases": [
+          "rest api",
+          "rest apis",
+          "api design",
+          "apis"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Docker",
+        "aliases": [
+          "Docker"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "System Design",
+        "aliases": [
+          "System Design"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      }
+    ],
+    "responsibilities": [
+      "Build services, database interactions, and reliable APIs."
+    ],
+    "version": 1,
+    "provenance": {
+      "kind": "project_authored",
+      "source": "IntervAI career-roles-v1",
+      "scope": "Illustrative exploration taxonomy; not universal hiring requirements or verified labour-market data."
+    }
+  },
+  {
+    "slug": "frontend-engineer",
+    "name": "Frontend Engineer",
+    "description": "Build accessible browser experiences and maintain client applications.",
+    "requirements": [
+      {
+        "skill": "JavaScript",
+        "aliases": [
+          "javascript",
+          "js"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "HTML/CSS",
+        "aliases": [
+          "html",
+          "css"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "React",
+        "aliases": [
+          "React"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "TypeScript",
+        "aliases": [
+          "TypeScript"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Accessibility",
+        "aliases": [
+          "Accessibility"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      }
+    ],
+    "responsibilities": [
+      "Build accessible browser experiences and maintain client applications."
+    ],
+    "version": 1,
+    "provenance": {
+      "kind": "project_authored",
+      "source": "IntervAI career-roles-v1",
+      "scope": "Illustrative exploration taxonomy; not universal hiring requirements or verified labour-market data."
+    }
+  },
+  {
+    "slug": "full-stack-engineer",
+    "name": "Full Stack Engineer",
+    "description": "Connect browser experiences to application services and data.",
+    "requirements": [
+      {
+        "skill": "JavaScript",
+        "aliases": [
+          "javascript",
+          "js"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Python",
+        "aliases": [
+          "python"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "SQL",
+        "aliases": [
+          "sql",
+          "dbms",
+          "databases"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": [
+          "normalization",
+          "transactions",
+          "indexing",
+          "deadlocks"
+        ]
+      },
+      {
+        "skill": "APIs",
+        "aliases": [
+          "rest api",
+          "rest apis",
+          "api design",
+          "apis"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "React",
+        "aliases": [
+          "React"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Docker",
+        "aliases": [
+          "Docker"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      }
+    ],
+    "responsibilities": [
+      "Connect browser experiences to application services and data."
+    ],
+    "version": 1,
+    "provenance": {
+      "kind": "project_authored",
+      "source": "IntervAI career-roles-v1",
+      "scope": "Illustrative exploration taxonomy; not universal hiring requirements or verified labour-market data."
+    }
+  },
+  {
+    "slug": "ai-ml-engineer",
+    "name": "AI/ML Engineer",
+    "description": "Develop, evaluate, and integrate machine-learning systems.",
+    "requirements": [
+      {
+        "skill": "Python",
+        "aliases": [
+          "python"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Machine Learning",
+        "aliases": [
+          "machine learning",
+          "ml"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Model Evaluation",
+        "aliases": [
+          "model evaluation"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Deep Learning",
+        "aliases": [
+          "Deep Learning"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "MLOps",
+        "aliases": [
+          "MLOps"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Cloud",
+        "aliases": [
+          "Cloud"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      }
+    ],
+    "responsibilities": [
+      "Develop, evaluate, and integrate machine-learning systems."
+    ],
+    "version": 1,
+    "provenance": {
+      "kind": "project_authored",
+      "source": "IntervAI career-roles-v1",
+      "scope": "Illustrative exploration taxonomy; not universal hiring requirements or verified labour-market data."
+    }
+  },
+  {
+    "slug": "data-scientist",
+    "name": "Data Scientist",
+    "description": "Analyze data, test hypotheses, and evaluate predictive models.",
+    "requirements": [
+      {
+        "skill": "Python",
+        "aliases": [
+          "python"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Statistics",
+        "aliases": [
+          "Statistics"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Machine Learning",
+        "aliases": [
+          "machine learning",
+          "ml"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "SQL",
+        "aliases": [
+          "sql",
+          "dbms",
+          "databases"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": [
+          "normalization",
+          "transactions",
+          "indexing",
+          "deadlocks"
+        ]
+      },
+      {
+        "skill": "Data Visualization",
+        "aliases": [
+          "Data Visualization"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      }
+    ],
+    "responsibilities": [
+      "Analyze data, test hypotheses, and evaluate predictive models."
+    ],
+    "version": 1,
+    "provenance": {
+      "kind": "project_authored",
+      "source": "IntervAI career-roles-v1",
+      "scope": "Illustrative exploration taxonomy; not universal hiring requirements or verified labour-market data."
+    }
+  },
+  {
+    "slug": "data-engineer",
+    "name": "Data Engineer",
+    "description": "Build reliable data ingestion, transformation, and delivery pipelines.",
+    "requirements": [
+      {
+        "skill": "Python",
+        "aliases": [
+          "python"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "SQL",
+        "aliases": [
+          "sql",
+          "dbms",
+          "databases"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": [
+          "normalization",
+          "transactions",
+          "indexing",
+          "deadlocks"
+        ]
+      },
+      {
+        "skill": "Data Pipelines",
+        "aliases": [
+          "Data Pipelines"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Cloud",
+        "aliases": [
+          "Cloud"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Distributed Systems",
+        "aliases": [
+          "Distributed Systems"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      }
+    ],
+    "responsibilities": [
+      "Build reliable data ingestion, transformation, and delivery pipelines."
+    ],
+    "version": 1,
+    "provenance": {
+      "kind": "project_authored",
+      "source": "IntervAI career-roles-v1",
+      "scope": "Illustrative exploration taxonomy; not universal hiring requirements or verified labour-market data."
+    }
+  },
+  {
+    "slug": "devops-engineer",
+    "name": "DevOps Engineer",
+    "description": "Automate delivery and operate reliable software environments.",
+    "requirements": [
+      {
+        "skill": "Linux",
+        "aliases": [
+          "Linux"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "CI/CD",
+        "aliases": [
+          "CI/CD"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Docker",
+        "aliases": [
+          "Docker"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Cloud",
+        "aliases": [
+          "Cloud"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Monitoring",
+        "aliases": [
+          "Monitoring"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      }
+    ],
+    "responsibilities": [
+      "Automate delivery and operate reliable software environments."
+    ],
+    "version": 1,
+    "provenance": {
+      "kind": "project_authored",
+      "source": "IntervAI career-roles-v1",
+      "scope": "Illustrative exploration taxonomy; not universal hiring requirements or verified labour-market data."
+    }
+  },
+  {
+    "slug": "cloud-engineer",
+    "name": "Cloud Engineer",
+    "description": "Design and operate cloud infrastructure and connectivity.",
+    "requirements": [
+      {
+        "skill": "Cloud",
+        "aliases": [
+          "Cloud"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Networking",
+        "aliases": [
+          "Networking"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Linux",
+        "aliases": [
+          "Linux"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Infrastructure as Code",
+        "aliases": [
+          "Infrastructure as Code"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Security",
+        "aliases": [
+          "Security"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      }
+    ],
+    "responsibilities": [
+      "Design and operate cloud infrastructure and connectivity."
+    ],
+    "version": 1,
+    "provenance": {
+      "kind": "project_authored",
+      "source": "IntervAI career-roles-v1",
+      "scope": "Illustrative exploration taxonomy; not universal hiring requirements or verified labour-market data."
+    }
+  },
+  {
+    "slug": "nlp-engineer",
+    "name": "NLP Engineer",
+    "description": "Build and evaluate systems processing language.",
+    "requirements": [
+      {
+        "skill": "Python",
+        "aliases": [
+          "python"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "NLP",
+        "aliases": [
+          "NLP"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Model Evaluation",
+        "aliases": [
+          "model evaluation"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Deep Learning",
+        "aliases": [
+          "Deep Learning"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "RAG",
+        "aliases": [
+          "RAG"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      }
+    ],
+    "responsibilities": [
+      "Build and evaluate systems processing language."
+    ],
+    "version": 1,
+    "provenance": {
+      "kind": "project_authored",
+      "source": "IntervAI career-roles-v1",
+      "scope": "Illustrative exploration taxonomy; not universal hiring requirements or verified labour-market data."
+    }
+  },
+  {
+    "slug": "computer-vision-engineer",
+    "name": "Computer Vision Engineer",
+    "description": "Develop and evaluate image-processing systems.",
+    "requirements": [
+      {
+        "skill": "Python",
+        "aliases": [
+          "python"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Computer Vision",
+        "aliases": [
+          "Computer Vision"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Model Evaluation",
+        "aliases": [
+          "model evaluation"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Deep Learning",
+        "aliases": [
+          "Deep Learning"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Deployment",
+        "aliases": [
+          "Deployment"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      }
+    ],
+    "responsibilities": [
+      "Develop and evaluate image-processing systems."
+    ],
+    "version": 1,
+    "provenance": {
+      "kind": "project_authored",
+      "source": "IntervAI career-roles-v1",
+      "scope": "Illustrative exploration taxonomy; not universal hiring requirements or verified labour-market data."
+    }
+  },
+  {
+    "slug": "technical-product",
+    "name": "Technical Product",
+    "description": "Clarify product problems and coordinate evidence-informed technical delivery.",
+    "requirements": [
+      {
+        "skill": "Product Discovery",
+        "aliases": [
+          "Product Discovery"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Communication",
+        "aliases": [
+          "Communication"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Data Analysis",
+        "aliases": [
+          "Data Analysis"
+        ],
+        "requirement": "required",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "APIs",
+        "aliases": [
+          "rest api",
+          "rest apis",
+          "api design",
+          "apis"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      },
+      {
+        "skill": "Software Testing",
+        "aliases": [
+          "Software Testing"
+        ],
+        "requirement": "preferred",
+        "certainty": "illustrative",
+        "related_concepts": []
+      }
+    ],
+    "responsibilities": [
+      "Clarify product problems and coordinate evidence-informed technical delivery."
+    ],
+    "version": 1,
+    "provenance": {
+      "kind": "project_authored",
+      "source": "IntervAI career-roles-v1",
+      "scope": "Illustrative exploration taxonomy; not universal hiring requirements or verified labour-market data."
+    }
+  }
+]

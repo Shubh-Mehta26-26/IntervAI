@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc"><title id="title">IntervAI high-level ER diagram</title><desc id="desc">Classic entity relationship diagram with users, candidates, resumes, job descriptions, interviews, questions, answers, evaluations and reports. Diamonds show named relationships and lines include one-to-many cardinality.</desc>
+<defs><style>text{font-family:Arial,Helvetica,sans-serif;fill:#16213f}.title{font-size:46px;font-weight:800}.subtitle{font-size:24px;font-weight:700;fill:#5c6476}.entity{font-size:22px;font-weight:800}.field{font-size:18px;fill:#2d3447}.rel{font-size:17px;font-weight:700}.card{stroke-width:2}.edge{fill:none;stroke:#47556b;stroke-width:2.7}.cardinality{font-size:19px;font-weight:800;fill:#19324f}.notehead{font-size:19px;font-weight:800}.note{font-size:17px;fill:#465167}</style></defs>
+<rect width="1920" height="1080" fill="#ffffff"/><text x="55" y="79" class="title">DESIGN — HIGH-LEVEL DIAGRAMS</text><text x="58" y="124" class="subtitle">ER Diagram · IntervAI</text><line x1="54" y1="145" x2="1866" y2="145" stroke="#d7dde6" stroke-width="2"/>
+<path d="M340 319H344 M416 319H420" class="edge"/>
+<polygon points="380,281 416,319 380,357 344,319" fill="#ffffff" stroke="#47556b" stroke-width="2.5"/>
+<text x="380" y="325" class="rel" text-anchor="middle">has</text>
+<text x="350" y="300" class="cardinality">1</text>
+<text x="421" y="300" class="cardinality">0..1</text>
+<path d="M720 319H824 M916 319H970" class="edge"/>
+<polygon points="870,280 916,319 870,358 824,319" fill="#ffffff" stroke="#47556b" stroke-width="2.5"/>
+<text x="870" y="325" class="rel" text-anchor="middle">takes</text>
+<text x="735" y="301" class="cardinality">1</text>
+<text x="948" y="301" class="cardinality">N</text>
+<path d="M1290 319H1399 M1491 319H1560" class="edge"/>
+<polygon points="1445,280 1491,319 1445,358 1399,319" fill="#ffffff" stroke="#47556b" stroke-width="2.5"/>
+<text x="1445" y="325" class="rel" text-anchor="middle">produces</text>
+<text x="1303" y="301" class="cardinality">1</text>
+<text x="1510" y="301" class="cardinality">0..1</text>
+<path d="M470 425L430 496 M380 606L340 690" class="edge"/>
+<polygon points="405,496 459,551 405,606 351,551" fill="#ffffff" stroke="#47556b" stroke-width="2.5"/>
+<text x="405" y="557" class="rel" text-anchor="middle">owns</text>
+<text x="444" y="456" class="cardinality">1</text>
+<text x="352" y="657" class="cardinality">N</text>
+<path d="M570 435V510 M570 592V690" class="edge"/>
+<polygon points="570,509 615,551 570,593 525,551" fill="#ffffff" stroke="#47556b" stroke-width="2.5"/>
+<text x="570" y="557" class="rel" text-anchor="middle">sets</text>
+<text x="582" y="481" class="cardinality">1</text>
+<text x="582" y="664" class="cardinality">N</text>
+<path d="M720 690L803 597 M885 505L970 425" class="edge"/>
+<polygon points="845,501 897,551 845,601 793,551" fill="#ffffff" stroke="#47556b" stroke-width="2.5"/>
+<text x="845" y="557" class="rel" text-anchor="middle">targets</text>
+<text x="728" y="655" class="cardinality">1</text>
+<text x="927" y="459" class="cardinality">N</text>
+<path d="M1120 435L1056 507 M984 593L950 690" class="edge"/>
+<polygon points="1020,500 1073,551 1020,602 967,551" fill="#ffffff" stroke="#47556b" stroke-width="2.5"/>
+<text x="1020" y="557" class="rel" text-anchor="middle">asks</text>
+<text x="1070" y="460" class="cardinality">1</text>
+<text x="966" y="665" class="cardinality">N</text>
+<path d="M1100 804H1113 M1187 804H1180" class="edge"/>
+<polygon points="1148,764 1186,804 1148,844 1110,804" fill="#ffffff" stroke="#47556b" stroke-width="2.5"/>
+<text x="1148" y="810" class="rel" text-anchor="middle">gets</text>
+<text x="1101" y="784" class="cardinality">1</text>
+<text x="1192" y="784" class="cardinality">0..1</text>
+<path d="M1480 804H1485 M1555 804H1560" class="edge"/>
+<polygon points="1520,764 1555,804 1520,844 1485,804" fill="#ffffff" stroke="#47556b" stroke-width="2.5"/>
+<text x="1520" y="810" class="rel" text-anchor="middle">rates</text>
+<text x="1482" y="784" class="cardinality">1</text>
+<text x="1562" y="784" class="cardinality">0..1</text>
+<rect class="card" x="40" y="210" width="300" height="225" rx="8" fill="#eef8ff" stroke="#297caa"/><rect x="40" y="210" width="300" height="52" rx="8" fill="#297caa"/><rect x="40" y="245" width="300" height="17" fill="#297caa"/><text x="190" y="245" text-anchor="middle" class="entity" fill="white">USERS</text>
+<text x="58" y="296" class="field">id (PK)</text>
+<text x="58" y="325" class="field">email, display_name</text>
+<text x="58" y="354" class="field">role, password_hash</text>
+<rect class="card" x="420" y="210" width="300" height="225" rx="8" fill="#eff9f1" stroke="#2e9258"/><rect x="420" y="210" width="300" height="52" rx="8" fill="#2e9258"/><rect x="420" y="245" width="300" height="17" fill="#2e9258"/><text x="570" y="245" text-anchor="middle" class="entity" fill="white">CANDIDATES</text>
+<text x="438" y="296" class="field">id (PK), user_id (FK)</text>
+<text x="438" y="325" class="field">experience_months</text>
+<text x="438" y="354" class="field">headline, biography</text>
+<rect class="card" x="970" y="210" width="320" height="225" rx="8" fill="#f2efff" stroke="#6b5bb9"/><rect x="970" y="210" width="320" height="52" rx="8" fill="#6b5bb9"/><rect x="970" y="245" width="320" height="17" fill="#6b5bb9"/><text x="1130" y="245" text-anchor="middle" class="entity" fill="white">INTERVIEWS</text>
+<text x="988" y="296" class="field">id (PK), candidate_id (FK)</text>
+<text x="988" y="325" class="field">resume_id?, job_id? (FK)</text>
+<text x="988" y="354" class="field">type, mode, status</text>
+<rect class="card" x="1560" y="210" width="300" height="225" rx="8" fill="#fff7eb" stroke="#c1812e"/><rect x="1560" y="210" width="300" height="52" rx="8" fill="#c1812e"/><rect x="1560" y="245" width="300" height="17" fill="#c1812e"/><text x="1710" y="245" text-anchor="middle" class="entity" fill="white">REPORTS</text>
+<text x="1578" y="296" class="field">id (PK), interview_id (FK)</text>
+<text x="1578" y="325" class="field">candidate_id (FK)</text>
+<text x="1578" y="354" class="field">latest_version</text>
+<rect class="card" x="40" y="690" width="300" height="225" rx="8" fill="#eef8ff" stroke="#297caa"/><rect x="40" y="690" width="300" height="52" rx="8" fill="#297caa"/><rect x="40" y="725" width="300" height="17" fill="#297caa"/><text x="190" y="725" text-anchor="middle" class="entity" fill="white">RESUMES</text>
+<text x="58" y="776" class="field">id (PK), candidate_id (FK)</text>
+<text x="58" y="805" class="field">version, status</text>
+<text x="58" y="834" class="field">parsed_facts</text>
+<rect class="card" x="420" y="690" width="300" height="225" rx="8" fill="#eff9f1" stroke="#2e9258"/><rect x="420" y="690" width="300" height="52" rx="8" fill="#2e9258"/><rect x="420" y="725" width="300" height="17" fill="#2e9258"/><text x="570" y="725" text-anchor="middle" class="entity" fill="white">JOB_DESCRIPTIONS</text>
+<text x="438" y="776" class="field">id (PK), candidate_id (FK)</text>
+<text x="438" y="805" class="field">title, description</text>
+<text x="438" y="834" class="field">analysis</text>
+<rect class="card" x="800" y="690" width="300" height="225" rx="8" fill="#f2efff" stroke="#6b5bb9"/><rect x="800" y="690" width="300" height="52" rx="8" fill="#6b5bb9"/><rect x="800" y="725" width="300" height="17" fill="#6b5bb9"/><text x="950" y="725" text-anchor="middle" class="entity" fill="white">INTERVIEW_QUESTIONS</text>
+<text x="818" y="776" class="field">id (PK), interview_id (FK)</text>
+<text x="818" y="805" class="field">sequence, difficulty</text>
+<text x="818" y="834" class="field">question text</text>
+<rect class="card" x="1180" y="690" width="300" height="225" rx="8" fill="#f2efff" stroke="#6b5bb9"/><rect x="1180" y="690" width="300" height="52" rx="8" fill="#6b5bb9"/><rect x="1180" y="725" width="300" height="17" fill="#6b5bb9"/><text x="1330" y="725" text-anchor="middle" class="entity" fill="white">INTERVIEW_ANSWERS</text>
+<text x="1198" y="776" class="field">id (PK), question_id (FK)</text>
+<text x="1198" y="805" class="field">candidate_id (FK)</text>
+<text x="1198" y="834" class="field">answer text</text>
+<rect class="card" x="1560" y="690" width="300" height="225" rx="8" fill="#fff7eb" stroke="#c1812e"/><rect x="1560" y="690" width="300" height="52" rx="8" fill="#c1812e"/><rect x="1560" y="725" width="300" height="17" fill="#c1812e"/><text x="1710" y="725" text-anchor="middle" class="entity" fill="white">ANSWER_EVALUATIONS</text>
+<text x="1578" y="776" class="field">id (PK), answer_id (FK)</text>
+<text x="1578" y="805" class="field">dimension results</text>
+<text x="1578" y="834" class="field">strengths, feedback</text>
+<rect x="55" y="946" width="1810" height="81" rx="12" fill="#f2f4f8" stroke="#d4dbe5"/><text x="78" y="976" class="notehead">Notation</text><text x="78" y="1002" class="note">Box = entity/table · Diamond = relationship · PK = primary key · FK = foreign key · 1 = one · N = many · ? = optional. Supporting tables are omitted for slide clarity.</text></svg>

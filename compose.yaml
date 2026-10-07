@@ -1,0 +1,168 @@
+name: intervai
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-intervai}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Copy .env.example to .env first}
+      POSTGRES_DB: ${POSTGRES_DB:-intervai}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5433}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/init-db.sql:/docker-entrypoint-initdb.d/001-vector.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+  migrate:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-intervai}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-intervai}
+      AUTH_SECRET: ${AUTH_SECRET:?Run scripts/init_environment.py first}
+    command: ["alembic", "upgrade", "head"]
+    depends_on:
+      db:
+        condition: service_healthy
+  backend:
+    networks: [default, execution]
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    environment: &backend-environment
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-intervai}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-intervai}
+      APP_ENV: ${APP_ENV:-development}
+      AUTH_SECRET: ${AUTH_SECRET:?Run scripts/init_environment.py first}
+      SESSION_TTL_SECONDS: ${SESSION_TTL_SECONDS:-86400}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      CORS_ORIGINS: ${CORS_ORIGINS:-["http://localhost:3000","http://127.0.0.1:3000"]}
+      AUTH_RATE_LIMIT_ATTEMPTS: ${AUTH_RATE_LIMIT_ATTEMPTS:-10}
+      AUTH_RATE_LIMIT_IP_ATTEMPTS: ${AUTH_RATE_LIMIT_IP_ATTEMPTS:-100}
+      AUTH_RATE_LIMIT_WINDOW_SECONDS: ${AUTH_RATE_LIMIT_WINDOW_SECONDS:-900}
+      STORAGE_ROOT: /app/storage
+      CODE_RUNNER_URL: http://sandbox:8080
+      CODE_RUNNER_API_KEY: ${CODE_RUNNER_API_KEY:-}
+      LLM_PROVIDER: ${LLM_PROVIDER:-openai}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_MODEL: ${LLM_MODEL:-}
+      LLM_BASE_URL: ${LLM_BASE_URL:-https://api.openai.com/v1}
+      LLM_TIMEOUT_SECONDS: ${LLM_TIMEOUT_SECONDS:-45}
+      VISION_ENABLED: ${VISION_ENABLED:-false}
+      VISION_MODEL_DIR: /opt/vision
+      VISION_SAMPLE_INTERVAL_MS: ${VISION_SAMPLE_INTERVAL_MS:-1000}
+      VISION_DETECTION_THRESHOLD: ${VISION_DETECTION_THRESHOLD:-0.55}
+      VISION_ABSENCE_MS: ${VISION_ABSENCE_MS:-3000}
+      VISION_CONFIRMATION_MS: ${VISION_CONFIRMATION_MS:-2000}
+      EMBEDDING_PROVIDER: ${EMBEDDING_PROVIDER:-}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-}
+      EMBEDDING_DIMENSIONS: ${EMBEDDING_DIMENSIONS:-1536}
+      EMBEDDING_BATCH_SIZE: ${EMBEDDING_BATCH_SIZE:-64}
+      RETRIEVAL_TOP_K: ${RETRIEVAL_TOP_K:-6}
+      RETRIEVAL_MIN_SIMILARITY: ${RETRIEVAL_MIN_SIMILARITY:-0.2}
+      STT_PROVIDER: ${STT_PROVIDER:-vosk}
+      STT_MODEL: ${STT_MODEL:-}
+      STT_API_KEY: ${STT_API_KEY:-}
+      VOSK_MODEL_PATH: ${VOSK_MODEL_PATH:-/app/storage/models/vosk}
+      TTS_PROVIDER: ${TTS_PROVIDER:-espeak}
+      TTS_MODEL: ${TTS_MODEL:-}
+      TTS_API_KEY: ${TTS_API_KEY:-}
+      TTS_VOICE: ${TTS_VOICE:-en}
+      TTS_SPEED: ${TTS_SPEED:-1}
+      ESPEAK_EXECUTABLE: ${ESPEAK_EXECUTABLE:-espeak-ng}
+      SPEECH_LANGUAGE: ${SPEECH_LANGUAGE:-en}
+      SPEECH_TIMEOUT_SECONDS: ${SPEECH_TIMEOUT_SECONDS:-60}
+      VOICE_MAX_SECONDS: ${VOICE_MAX_SECONDS:-180}
+      VOICE_MIN_SPEECH_SECONDS: ${VOICE_MIN_SPEECH_SECONDS:-0.4}
+      VOICE_SILENCE_SECONDS: ${VOICE_SILENCE_SECONDS:-1.4}
+      VOICE_AUDIO_TTL_SECONDS: ${VOICE_AUDIO_TTL_SECONDS:-600}
+      SPEECH_FILLERS: ${SPEECH_FILLERS:-["um","uh","you know"]}
+    volumes:
+      - resume_storage:/app/storage
+    ports:
+      - "127.0.0.1:${API_PORT:-8000}:8000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health/ready', timeout=6)"]
+      interval: 10s
+      timeout: 7s
+      retries: 6
+    restart: unless-stopped
+  worker:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    environment: *backend-environment
+    command: ["python", "-m", "app.worker"]
+    volumes:
+      - resume_storage:/app/storage
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      sandbox:
+        condition: service_healthy
+    mem_limit: 768m
+    pids_limit: 64
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import pathlib,time; p=pathlib.Path('/tmp/intervai-worker'); assert p.exists() and time.time()-p.stat().st_mtime<240"]
+      interval: 15s
+      timeout: 5s
+      retries: 6
+    restart: unless-stopped
+    networks: [default, execution]
+  sandbox:
+    environment:
+      APP_ENV: ${APP_ENV:-development}
+      CODE_RUNNER_API_KEY: ${CODE_RUNNER_API_KEY:-}
+    build:
+      context: .
+      dockerfile: sandbox/Dockerfile
+    read_only: true
+    tmpfs:
+      - /tmp:rw,exec,nosuid,nodev,size=128m,uid=10001,gid=10001,mode=700
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true", "seccomp:./sandbox/docker-seccomp.json"]
+    mem_limit: 512m
+    cpus: 1
+    pids_limit: 64
+    networks: [execution]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import os,urllib.request; k=os.environ.get('CODE_RUNNER_API_KEY'); urllib.request.urlopen(urllib.request.Request('http://127.0.0.1:8080/health',headers={'Authorization':'Bearer '+k} if k else {}), timeout=5)"]
+      interval: 15s
+      timeout: 6s
+      retries: 5
+    restart: unless-stopped
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+    environment:
+      API_INTERNAL_URL: http://backend:8000
+    ports:
+      - "127.0.0.1:${FRONTEND_PORT:-3000}:3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+volumes:
+  postgres_data:
+  resume_storage:
+networks:
+  execution:
+    internal: true
