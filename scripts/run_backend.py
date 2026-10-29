@@ -1,7 +1,7 @@
 """Native development launcher; uses a psycopg-compatible Windows event loop."""
 
-import asyncio
 import argparse
+import asyncio
 import os
 import sys
 from pathlib import Path

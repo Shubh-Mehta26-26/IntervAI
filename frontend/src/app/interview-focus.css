@@ -1,0 +1,131 @@
+/* Active conversational interviews: question, voice controls and camera share one workspace. */
+.page-content:has(.interview-room-live) { max-width: none; padding: 16px 24px 24px; }
+.interview-room-live { gap: 14px; padding-bottom: 0; }
+.interview-room-live .studio-header { padding-bottom: 12px; gap: 12px; }
+.interview-room-live .studio-header .eyebrow { margin: 6px 0 0; font-size: 10px; }
+.interview-room-live .studio-header-actions { gap: 16px; }
+.interview-room-live .interview-studio { grid-template-columns: minmax(0, 1fr) minmax(260px, 300px); gap: 16px; }
+.interview-room-live .interview-main { gap: 12px; align-content: start; }
+.interview-room-live .current-question { padding: 18px 20px; gap: 12px; max-height: none; }
+.interview-room-live .current-question h1 { font: 500 clamp(18px, 1.25vw, 23px)/1.5 var(--font-body, system-ui, sans-serif); letter-spacing: -.3px; margin: 8px 0; }
+.interview-room-live .current-question .eyebrow { margin: 0; font-size: 10px; }
+.interview-room-live .question-meta { margin: 6px 0 0; padding: 0; background: none; }
+.interview-room-live .avatar-interview { grid-template-columns: minmax(170px, .35fr) minmax(0, 1fr); gap: 16px; padding: 16px; margin: 0; background: var(--surface); border-radius: 16px; }
+.interview-room-live .live-avatar-scene { padding-top: 20px; }
+.interview-room-live .live-avatar-scene svg { height: clamp(180px, 16vw, 240px); }
+.interview-room-live .live-avatar-badge { top: 8px; left: 10px; font-size: 10px; }
+.interview-room-live .live-avatar-caption { min-height: 36px; padding: 8px; font-size: 10px; }
+.interview-room-live .avatar-signal { right: 6px; bottom: 4px; }
+.interview-room-live .voice-heading { margin: 0 0 10px; align-items: center; }
+.interview-room-live .voice-heading .eyebrow { display: none; }
+.interview-room-live .voice-heading h2 { margin: 0; font: 600 16px/1.4 var(--font-body, system-ui, sans-serif); letter-spacing: 0; }
+.interview-room-live .voice-actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 0; }
+.interview-room-live .voice-actions button { min-height: 38px; padding: 8px 12px; font-size: 12px; }
+.interview-room-live .voice-preferences { gap: 10px; margin: 12px 0 8px; }
+.interview-room-live .voice-preferences label { font-size: 11px; gap: 4px; }
+.interview-room-live .voice-preferences select { min-height: 36px; padding: 7px 8px; }
+.interview-room-live .avatar-handsfree { padding: 4px 0 8px; margin: 0; font-size: 12px; gap: 8px; }
+.interview-room-live .avatar-handsfree small { margin-top: 2px; font-size: 11px; }
+.interview-room-live .voice-help, .interview-room-live .voice-transcript { margin: 8px 0 0; font-size: 11px; }
+.interview-room-live .voice-help summary, .interview-room-live .feedback-card summary { cursor: pointer; color: var(--muted); }
+.interview-room-live .voice-help[open], .interview-room-live .voice-transcript[open] { max-height: 130px; overflow-y: auto; }
+.interview-room-live .voice-help p { font-size: 11px; margin: 8px 0; }
+.interview-room-live .answer-panel { order: 2; padding: 14px 16px; gap: 8px; }
+.interview-room-live .answer-panel textarea { min-height: 80px; max-height: 180px; font-size: 14px; line-height: 1.5; }
+.interview-room-live .answer-panel .action-button { min-height: 36px; padding: 8px 14px; font-size: 12px; }
+.interview-room-live .feedback-card { order: 3; padding: 12px 16px; font-size: 13px; }
+.interview-room-live .interview-side { top: 96px; }
+.interview-room-live .camera-heading { padding: 14px; }
+.interview-room-live .camera-heading h2 { font-size: 16px; }
+.interview-room-live .camera-heading .eyebrow { font-size: 9px; }
+.interview-room-live .camera-stage { aspect-ratio: 4 / 3; }
+.interview-room-live .camera-toolbar { padding: 10px; gap: 6px; }
+.interview-room-live .camera-privacy { font-size: 10px; margin-bottom: 10px; padding-inline: 12px; }
+.interview-room-live .camera-observations { padding: 12px; font-size: 11px; }
+.interview-room-live .interview-camera:fullscreen .camera-stage { aspect-ratio: auto; }
+@media (max-width: 1199px) {
+  .interview-room-live .avatar-interview { grid-template-columns: 150px minmax(0, 1fr); gap: 10px; padding: 12px; }
+  .interview-room-live .live-avatar-scene svg { height: 170px; }
+  .interview-room-live .interview-studio { grid-template-columns: minmax(0, 1fr) 260px; }
+}
+@media (max-width: 899px) {
+  .page-content:has(.interview-room-live) { padding: 12px; }
+  .interview-room-live .interview-studio { grid-template-columns: minmax(0, 1fr); }
+  .interview-room-live .interview-side { grid-row: auto; position: static; }
+  .interview-room-live .current-question { max-height: none; }
+  .interview-room-live .camera-stage { max-height: 260px; }
+  .interview-room-live .studio-header-actions { gap: 8px; }
+}
+@media (max-width: 480px) {
+  .interview-room-live .avatar-interview { grid-template-columns: minmax(0, 1fr); }
+  .interview-room-live .live-avatar-scene svg { height: 160px; }
+  .interview-room-live .live-avatar-caption { font-size: 9px; }
+  .interview-room-live .voice-network { font-size: 10px; }
+  .interview-room-live .voice-actions button { flex: 1 1 auto; }
+  .interview-room-live .current-question { grid-template-columns: 1fr; }
+  .interview-room-live .current-question > .interviewer-avatar { display: none; }
+}
+.sidebar-collapse-toggle { position:absolute; top:12px; right:12px; width:28px; height:28px; border:1px solid #ffffff35; border-radius:8px; background:#ffffff12; color:#eef4ff; cursor:pointer; font-size:20px; }
+@media(min-width:761px) {
+ .app-shell .sidebar { transition:width .24s ease; }
+ .app-shell>main { transition:margin-left .24s ease,width .24s ease; }
+ .sidebar-collapsed .sidebar { width:76px; padding:48px 10px 16px; }
+ .sidebar-collapsed>main { margin-left:100px; width:calc(100% - 100px); }
+ .sidebar-collapsed .sidebar-brand-row,.sidebar-collapsed .workspace-switch,.sidebar-collapsed .nav-group-toggle,.sidebar-collapsed .sidebar-practice,.sidebar-collapsed .account-name,.sidebar-collapsed .sidebar-account .avatar-initial { display:none; }
+ .sidebar-collapsed .nav-group { margin:0; padding:6px 0; border-bottom:1px solid #ffffff18; }
+ .sidebar-collapsed .nav-group-links { display:grid; gap:4px; }
+ .sidebar-collapsed .nav-group-links a { justify-content:center; padding:10px; min-height:40px; }
+ .sidebar-collapsed .nav-group-links a>span { display:none; }
+ .sidebar-collapsed .sidebar-account { display:block; padding:10px 0 0; text-align:center; }
+ .sidebar-collapsed .sidebar-account button { font-size:10px; }
+ .sidebar-collapsed .app-navigation { overflow-y:auto; }
+}
+@media(max-width:760px) { .sidebar-collapse-toggle { display:none; } }
+.live-avatar .voice-orb-core { transition:filter .4s ease; }
+.live-avatar--idle .voice-orb-scene svg { animation:orb-breathe 6s ease-in-out infinite; }
+.live-avatar--idle .orb-orbit { transform-origin:180px 159px; animation:orb-orbit 18s linear infinite; }
+.live-avatar--listening .voice-orb-core { filter:drop-shadow(0 0 10px #5eeacb55); }
+.live-avatar--speaking .voice-orb-core { filter:drop-shadow(0 0 12px #a9b8ff66); }
+.live-avatar--thinking .voice-orb-core { animation:orb-energy 2.5s ease-in-out infinite; }
+.live-avatar--paused .voice-orb-scene { opacity:.65; }
+.live-avatar--error .voice-orb-core { filter:drop-shadow(0 0 10px #f5b07766); }
+.live-avatar--error .avatar-state-dot { background:#ffc08b; }
+@keyframes orb-breathe { 50% { transform:translateY(-3px) scale(1.025); } }
+@keyframes orb-energy { 50% { filter:drop-shadow(0 0 16px #9aafff88); } }
+@media(prefers-reduced-motion:reduce) {
+ .app-shell .sidebar,.app-shell>main,.live-avatar .voice-orb-core { transition:none; }
+ .live-avatar--idle .voice-orb-scene svg,.live-avatar--idle .orb-orbit,.live-avatar--thinking .voice-orb-core { animation:none; }
+}
+/* State-driven movement; audio wave amplitude is supplied by the live analyser. */
+.orb-flow,.orb-satellites,.orb-echo { transform-origin:180px 159px; }
+.orb-flow { animation:orb-flow-turn 26s linear infinite; }
+.orb-satellites { animation:orb-flow-turn 30s linear infinite; opacity:.55; }
+.orb-echoes,.orb-voice-wave { color:#bacdff; }
+.orb-echo { opacity:0; }
+.orb-voice-wave { opacity:.2; transition:opacity .3s ease,color .3s ease; }
+.live-avatar--speaking .orb-flow { animation-duration:6s; }
+.live-avatar--speaking .orb-satellites { animation-duration:12s; }
+.live-avatar--speaking .orb-echo { animation:orb-broadcast 2.4s ease-out infinite; }
+.live-avatar--speaking .orb-echo-second { animation-delay:1.2s; }
+.live-avatar--speaking .orb-voice-wave,.live-avatar--listening .orb-voice-wave { opacity:1; }
+.live-avatar--listening .orb-echoes,.live-avatar--listening .orb-voice-wave { color:#7debd1; }
+.live-avatar--listening .orb-echo { opacity:calc(.15 + var(--signal) * .7); transform:scale(calc(1 + var(--signal) * .3)); }
+.live-avatar--listening .orb-echo-second { transform:scale(calc(1.12 + var(--signal) * .3)); opacity:calc(var(--signal) * .35); }
+.live-avatar--listening .orb-flow { animation-duration:16s; }
+.live-avatar--thinking .orb-satellites { animation-duration:3s; }
+.live-avatar--thinking .orb-flow { animation-duration:8s; animation-direction:reverse; }
+.live-avatar--paused .orb-flow,.live-avatar--paused .orb-satellites,.live-avatar--error .orb-flow,.live-avatar--error .orb-satellites { animation-play-state:paused; }
+.live-avatar--error .orb-echo { opacity:.45; stroke:#ffc08b; stroke-dasharray:5 7; }
+.orb-suspended * { animation-play-state:paused !important; }
+@keyframes orb-flow-turn { to { transform:rotate(360deg); } }
+@keyframes orb-broadcast { 0% { transform:scale(1); opacity:calc(.15 + var(--signal) * .55); } 100% { transform:scale(1.5); opacity:0; } }
+@media(prefers-reduced-motion:reduce) {
+ .orb-flow,.orb-satellites,.live-avatar .orb-echo { animation:none; }
+ .live-avatar .orb-echo,.live-avatar .orb-voice-wave line { transform:none !important; }
+}
+.camera-monitor-status { display:grid; gap:8px; padding:12px 16px; border-top:1px solid var(--line); font-size:12px; }
+.camera-monitor-status small { color:var(--muted); line-height:1.5; }
+.camera-detection-warning { margin:0 12px 12px; padding:14px; border:1px solid #e4ae52; border-radius:12px; background:#fff3da; color:#704800; font-size:13px; }
+.camera-detection-warning p { margin:8px 0; line-height:1.5; }
+.camera-detection-warning small { display:block; font-size:11px; }
+[data-theme="dark"] .camera-detection-warning { background:#382b17; color:#ffe2a2; }

@@ -9,6 +9,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test:voice": "node --test tests/voice.test.mjs",
+    "test:avatar": "node --test tests/avatar.test.mjs",
     "test:vision": "node --test tests/vision.test.mjs"
   },
   "dependencies": {

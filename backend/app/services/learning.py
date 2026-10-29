@@ -10,7 +10,7 @@ from sqlalchemy import func, select
 
 from app.core.errors import fail
 from app.models.identity import Candidate, CandidateGoal
-from app.models.intelligence import JobDescription
+from app.models.intelligence import JobDescription, Resume
 from app.models.interviews import AnswerEvaluation, Interview, InterviewQuestion, InterviewRound
 from app.models.knowledge import KnowledgeChunk, KnowledgeDocument
 from app.models.learning import (
@@ -25,6 +25,7 @@ from app.models.memory import CandidateMemory, KnowledgeGap, MemoryEvidence
 from app.schemas.learning import LearningContent
 from app.services.interview_prompts import BOUNDARY, packed
 from app.services.knowledge import retrieve
+from app.services.learning_catalog import TRACKS, catalog_values, lesson_content, matching_tracks
 from app.services.memory_policy import concepts, independent, normalized
 
 POLICY = "learning-v1"
@@ -364,6 +365,8 @@ async def create_plan(db, owner, payload):
                 409, "idempotency_conflict", "This key already describes a different learning plan."
             )
         return prior
+    if not payload.gap_ids:
+        return await create_guided_plan(db, owner, payload, request_hash)
     rows = await gap_rows(db, owner, payload.gap_ids)
     if any(g.status not in {"confirmed", "learning", "improving"} for g, _ in rows):
         fail(
@@ -464,6 +467,77 @@ async def create_plan(db, owner, payload):
     return await remember(db, owner, payload.idempotency_key, request_hash, "plan", plan)
 
 
+async def catalog(db, owner, job_id=None):
+    job_text, job = await job_context(db, owner, job_id)
+    resume = await db.scalar(
+        select(Resume).where(Resume.candidate_id == owner, Resume.status == "parsed")
+        .order_by(Resume.created_at.desc()).limit(1)
+    )
+    suggested = []
+    if job:
+        suggested = [
+            {"id": key, "reason": f"Mentioned in your target job: {job.title}"}
+            for key in matching_tracks(job_text)
+        ]
+    if not suggested and resume:
+        skill_names = " ".join(x.get("name", "") for x in (resume.parsed_data or {}).get("skills", []))
+        suggested = [
+            {"id": key, "reason": "Build on a skill mentioned in your latest parsed resume"}
+            for key in matching_tracks(skill_names)
+        ]
+    if not suggested:
+        suggested = [{"id": key, "reason": "A starting point you can change"}
+                     for key in ("interview-skills", "python", "javascript")]
+    return {
+        "topics": catalog_values(), "suggested": suggested[:4],
+        "job_title": job.title if job else None,
+        "resume_name": resume.original_name if resume else None,
+    }
+
+
+async def create_guided_plan(db, owner, payload, request_hash):
+    job_text, job = await job_context(db, owner, payload.job_id)
+    topics = list(dict.fromkeys(payload.topics or matching_tracks(job_text)[:4]))
+    if not topics:
+        fail(422, "choose_learning_topics", "Choose at least one learning topic for this job.")
+    if any(key not in TRACKS for key in topics):
+        fail(422, "unknown_learning_topic", "Choose a topic from the learning catalog.")
+    fingerprint = digest({"topics": sorted(topics), "job": str(payload.job_id),
+                          "policy": "guided-learning-v1",
+                          "regenerate": str(payload.idempotency_key) if payload.regenerate else None})
+    duplicate = await db.scalar(select(LearningPlan).where(
+        LearningPlan.candidate_id == owner, LearningPlan.fingerprint == fingerprint))
+    if duplicate:
+        return await remember(db, owner, payload.idempotency_key, request_hash, "plan", duplicate)
+    titles = [TRACKS[key]["title"] for key in topics]
+    plan = LearningPlan(
+        candidate_id=owner, job_id=payload.job_id, request_key=payload.idempotency_key,
+        request_hash=request_hash, fingerprint=fingerprint,
+        title=(f"Prepare for {job.title}" if job else "Learn " + " & ".join(titles))[:240],
+        objective="Work through short lessons, try the examples, check your understanding, and practise explaining what you learned.",
+        priority=0, priority_reasons=["Topics selected for study, rather than assessed weaknesses"],
+        context={"mode": "guided", "policy": "guided-learning-v1", "topics": topics,
+                 "job_title": job.title if job else None,
+                 "note": "Study progress is saved separately from assessed interview skill evidence."},
+    )
+    db.add(plan)
+    await db.flush()
+    ordinal = 0
+    for key in topics:
+        track = TRACKS[key]
+        for value in track["lessons"]:
+            ordinal += 1
+            db.add(LearningItem(
+                plan_id=plan.id, target_id=None, ordinal=ordinal, title=value["title"],
+                topic=track["title"], concept=value["title"], difficulty=2, effort_minutes=15,
+                objective=value["practice_question"], resource_type="guided_lesson",
+                order_reason="Understand the idea, trace the example, then apply it to an interview question.",
+                content=lesson_content(value),
+            ))
+    await db.flush()
+    return await remember(db, owner, payload.idempotency_key, request_hash, "plan", plan)
+
+
 async def start_learning(db, owner, plan_id, revision):
     await lock_owner(db, owner)
     plan = await owned(db, LearningPlan, plan_id, owner, lock=True)
@@ -479,6 +553,9 @@ async def start_learning(db, owner, plan_id, revision):
     targets = (
         await db.scalars(select(LearningTarget).where(LearningTarget.plan_id == plan.id))
     ).all()
+    if not targets:
+        db.add(LearningAction(candidate_id=owner, plan_id=plan.id, kind="start_learning",
+                              reason="Candidate started their topic learning plan."))
     for target in targets:
         gap = await owned(db, KnowledgeGap, target.gap_id, owner)
         before = gap.status
@@ -529,6 +606,32 @@ async def complete_item(db, owner, item_id, revision):
     return plan
 
 
+async def self_check(db, owner, item_id, payload):
+    await lock_owner(db, owner)
+    item = await owned(db, LearningItem, item_id, owner, lock=True)
+    plan = await owned(db, LearningPlan, item.plan_id, owner, lock=True)
+    if plan.revision != payload.expected_revision:
+        fail(409, "revision_conflict", "Your plan changed. Reload and try the check again.")
+    quiz = item.content.get("quiz")
+    if not quiz or payload.selected_index >= len(quiz["options"]):
+        fail(422, "invalid_self_check", "Choose an available answer for this lesson's check.")
+    correct = payload.selected_index == quiz["answer"]
+    item.check_result = {
+        "selected_index": payload.selected_index, "correct": correct,
+        "feedback": quiz["feedback"], "attempts": (item.check_result or {}).get("attempts", 0) + 1,
+        "checked_at": datetime.now(timezone.utc).isoformat(),
+    }
+    if item.status == "pending":
+        item.status = "in_progress"
+    db.add(LearningAction(
+        candidate_id=owner, plan_id=plan.id, item_id=item.id, kind="self_check",
+        reason="Completed a lesson self-check. This activity does not update assessed skill evidence.",
+    ))
+    plan.revision += 1
+    await db.flush()
+    return plan
+
+
 async def prior_attempt(db, owner, key, request_hash):
     row = await db.scalar(
         select(LearningAttempt).where(
@@ -563,8 +666,13 @@ async def practice(db, owner, item_id, key):
     )
     if active:
         return await remember(db, owner, key, request_hash, "practice", active)
-    target = await db.get(LearningTarget, item.target_id)
-    gap, memory = (await gap_rows(db, owner, [target.gap_id]))[0]
+    targets = []
+    skill = item.topic
+    if item.target_id:
+        target = await db.get(LearningTarget, item.target_id)
+        gap, memory = (await gap_rows(db, owner, [target.gap_id]))[0]
+        skill = memory.subject
+        targets = [{"gap_id": str(gap.id), "memory_id": str(memory.id), "concept": item.concept}]
     interview = Interview(
         candidate_id=owner,
         interview_type="technical",
@@ -604,10 +712,10 @@ async def practice(db, owner, item_id, key):
             sequence=1,
             text=item.content["practice_question"],
             topic=item.topic,
-            skill=memory.subject,
+            skill=skill,
             difficulty=item.difficulty,
             question_type="technical",
-            reason="Targeted practice linked to the learning item and confirmed gap.",
+            reason="Targeted practice linked to a saved learning lesson.",
             operation_id=key,
         )
     )
@@ -619,7 +727,7 @@ async def practice(db, owner, item_id, key):
         request_key=key,
         request_hash=request_hash,
         kind="practice",
-        targets=[{"gap_id": str(gap.id), "memory_id": str(memory.id), "concept": item.concept}],
+        targets=targets,
     )
     db.add(attempt)
     if item.status == "pending":
@@ -850,7 +958,7 @@ async def record_comparison(db, interview):
 
 
 def item_value(item):
-    return {
+    value = {
         key: getattr(item, key)
         for key in (
             "id",
@@ -869,8 +977,16 @@ def item_value(item):
             "content_revision",
             "status",
             "completed_at",
+            "check_result",
         )
     }
+    # Keep the self-check answer on the server until the learner submits a choice.
+    content = dict(item.content)
+    if content.get("quiz"):
+        content["quiz"] = {key: val for key, val in content["quiz"].items()
+                           if key not in {"answer", "feedback"}}
+    value["content"] = content
+    return value
 
 
 async def attempt_value(db, attempt):
@@ -1027,6 +1143,7 @@ async def generate_content(factory, owner, item_id, expected_revision, provider,
         if item.content_revision != expected_revision:
             fail(409, "revision_conflict", "Another generation updated this content.")
         item.content = {
+            **({"quiz": item.content["quiz"]} if item.content.get("quiz") else {}),
             **generated.model_dump(mode="json"),
             "sources": [x for x in content["sources"] if x["chunk_id"] in cited],
             "grounding_status": "source_cited_generated" if cited else "insufficient",

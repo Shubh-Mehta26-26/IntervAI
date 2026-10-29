@@ -6,7 +6,7 @@ export class CameraLease {
     this.pending = true;
     const generation = ++this.generation;
     try {
-      const stream = await mediaDevices.getUserMedia({ video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: "user" }, audio: false });
+      const stream = await mediaDevices.getUserMedia({ video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: "user" }, audio: false });
       if (generation !== this.generation) { stream.getTracks().forEach(track => track.stop()); return null; }
       this.stream = stream;
       return stream;
@@ -16,7 +16,7 @@ export class CameraLease {
 }
 
 export function cameraError(error) {
-  return ({ NotAllowedError: "Camera permission was denied or revoked. You can continue without it.", NotFoundError: "No camera was found.", NotReadableError: "The camera is unavailable or already in use.", OverconstrainedError: "This camera does not support the requested capture settings." })[error?.name] || "Camera could not start. Continue without monitoring or try again.";
+  return ({ NotAllowedError: "Camera access is blocked. Allow camera access in your browser’s site settings, then try again.", NotFoundError: "No camera was found. Connect a camera and try again.", NotReadableError: "The camera is unavailable or already in use. Close other camera apps and try again.", OverconstrainedError: "This camera does not support the requested capture settings." })[error?.name] || "Camera could not start. You can continue your interview and try again when ready.";
 }
 
 export class SampleGate {

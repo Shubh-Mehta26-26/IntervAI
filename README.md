@@ -1,5 +1,7 @@
 # IntervAI
 
+**Start here:** [Project guide and AI handoff](PROJECT_GUIDE.md) — current workflows, architecture, feature/file map, requirements, Windows CMD setup and start/stop commands, configuration, troubleshooting, and source-derived API/database inventories. Future coding assistants should read this guide and applicable `AGENTS.md` instructions before making changes.
+
 Adaptive interview and learning platform. **Current implementation: Phase 12 evidence reports, analytics, consent-based recruiter review, and role-scoped administration, building on Phases 1–11.**
 
 ## Blueprint

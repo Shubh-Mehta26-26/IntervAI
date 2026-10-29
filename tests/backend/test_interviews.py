@@ -398,12 +398,16 @@ def test_simulation_hides_feedback_and_enforces_ownership_and_states(identity):
     )
 
 
-def test_validation_auth_and_missing_provider(identity):
+def test_validation_auth_and_missing_provider(identity, monkeypatch):
     signed_in(identity)
     invalid = create_interview(identity, question_limit=31)
     assert invalid.status_code == 422
     created = create_interview(identity).json()
     app.dependency_overrides.pop(require_llm_ready)
+    monkeypatch.setattr(
+        "app.api.interviews.provider_status",
+        lambda: (False, "", "", "No interview provider configured."),
+    )
     missing = mutate(
         identity, "POST", f"/interviews/{created['id']}/start", {"expected_revision": 0}
     )

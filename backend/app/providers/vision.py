@@ -47,6 +47,9 @@ class LocalVision:
         self.net = cv2.dnn.readNetFromTensorflow(
             str(directory / "ssd.pb"), str(directory / "ssd.pbtxt")
         )
+        self.faces = cv2.CascadeClassifier(
+            cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
+        )
         self.lock = threading.Lock()
 
     def detect(self, data: bytes) -> Detection:
@@ -67,9 +70,42 @@ class LocalVision:
                     persons.append(float(score))
                 elif int(label) == 77:
                     phones.append(float(score))
+            # A second person may show only their face at the edge of a webcam.
+            # Use the larger count, never add face and body counts for the same people.
+            gray = cv2.equalizeHist(cv2.cvtColor(image, cv2.COLOR_BGR2GRAY))
+            faces = (
+                self.faces.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=6, minSize=(32, 32))
+                if not self.faces.empty()
+                else []
+            )
+            face_count = min(2, len(faces))  # Face fallback distinguishes one vs multiple only.
+            # Overlapping closer views preserve small phone detail. Only use these
+            # passes for phones, so overlapping people cannot inflate person counts.
+            if not phones:
+                height, width = image.shape[:2]
+                crop_h, crop_w = round(height * 0.65), round(width * 0.65)
+                for y, x in (
+                    (0, 0),
+                    (0, width - crop_w),
+                    (height - crop_h, 0),
+                    (height - crop_h, width - crop_w),
+                ):
+                    crop = image[y : y + crop_h, x : x + crop_w]
+                    self.net.setInput(cv2.dnn.blobFromImage(crop, size=(300, 300), swapRB=True))
+                    close_output = self.net.forward().reshape(-1, 7)
+                    phones.extend(
+                        float(score)
+                        for _, label, score, *_ in close_output
+                        if int(label) == 77 and np.isfinite(score) and threshold <= score <= 1
+                    )
+                    if phones:
+                        break
             return Detection(
-                persons=len(persons),
-                person_confidence=max(persons, default=None),
+                detector="ssd-mobilenet-v2-coco-2018-03-29-face-crops-v1",
+                persons=max(len(persons), face_count),
+                person_confidence=max(persons, default=None)
+                if len(persons) >= face_count
+                else None,
                 phone=bool(phones),
                 phone_confidence=max(phones, default=None),
             )
@@ -98,3 +134,4 @@ def vision_status():
             "available": False,
             "message": "Local vision model is unavailable. The interview remains usable.",
         }
+

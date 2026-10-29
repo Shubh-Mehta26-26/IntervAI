@@ -1,16 +1,25 @@
 from typing import Literal
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from app.schemas.identity import Input
 
 
 class PlanInput(Input):
-    gap_ids: list[UUID] = Field(min_length=1, max_length=6)
+    gap_ids: list[UUID] = Field(default_factory=list, max_length=6)
+    topics: list[str] = Field(default_factory=list, max_length=4)
     job_id: UUID | None = None
     idempotency_key: UUID
     regenerate: bool = False
+
+    @model_validator(mode="after")
+    def selected_focus(self):
+        if not self.gap_ids and not self.topics and not self.job_id:
+            raise ValueError("Choose learning topics, a target job, or confirmed knowledge gaps.")
+        if self.gap_ids and self.topics:
+            raise ValueError("Create either a topic plan or a confirmed-gap plan.")
+        return self
 
 
 class RevisionInput(Input):
@@ -19,6 +28,10 @@ class RevisionInput(Input):
 
 class PracticeInput(Input):
     idempotency_key: UUID
+
+
+class SelfCheckInput(RevisionInput):
+    selected_index: int = Field(ge=0, le=5)
 
 
 class RetryInput(Input):

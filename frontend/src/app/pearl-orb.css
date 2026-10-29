@@ -1,0 +1,50 @@
+/* Pearl plasma orb: intentionally light, including when the surrounding app is dark. */
+.live-avatar.live-avatar--plasma {
+  background: linear-gradient(145deg,#fffafedb,#eee5f7c9);
+  color: #55416f;
+  border: 1px solid #d9c9eb;
+  box-shadow: inset 0 1px 0 #fff,0 8px 26px #8363b312;
+  backdrop-filter: blur(16px);
+}
+.live-avatar--plasma .voice-orb-scene {
+  --signal: 0; --orb-scale: 1; --plasma-turn: 0deg;
+  background: radial-gradient(ellipse at 15% 20%,#e4d6ff99,transparent 60%),radial-gradient(ellipse at 95% 75%,#ffe0ce9c,transparent 60%),linear-gradient(140deg,#fcfaff,#f5effa);
+  opacity: 1;
+}
+.live-avatar--plasma .voice-orb-scene svg { animation: none; }
+.live-avatar--plasma .live-avatar-badge { color: #5d4679; }
+.live-avatar--plasma .live-avatar-badge span { color: #776784; }
+.live-avatar--plasma .live-avatar-caption {
+  background: #ffffff70; color: #5a466e;
+  border-top: 1px solid #d8c9e655;
+  backdrop-filter: blur(12px);
+}
+.live-avatar--plasma .voice-orb-core { filter: none; animation: none; transform: translateY(var(--orb-lift,0px)) scale(var(--orb-scale,1)); }
+.live-avatar--plasma .plasma-current { transform-origin: 180px 159px; transform: rotate(var(--plasma-turn)); opacity: calc(.78 + var(--signal) * .22); }
+.live-avatar--plasma .plasma-halo { opacity: calc(.55 + var(--signal) * .45); }
+.live-avatar--plasma .plasma-edge-glow { opacity: calc(.55 + var(--signal) * .4); }
+.live-avatar--plasma .plasma-wave { color: #9575be; opacity: .55; }
+.live-avatar--plasma.live-avatar--speaking .plasma-wave { color: #835db2; opacity: 1; }
+.live-avatar--plasma.live-avatar--listening .plasma-wave { color: #447e88; opacity: 1; }
+.live-avatar--plasma .avatar-state-dot { background: #a58abf; }
+.live-avatar--plasma.live-avatar--speaking .avatar-state-dot { background: #9568cd; }
+.live-avatar--plasma.live-avatar--listening .avatar-state-dot { background: #3e8b80; box-shadow: 0 0 0 3px #3e8b8015; }
+.live-avatar--plasma.live-avatar--thinking .avatar-state-dot { background: #aa7bb9; }
+.live-avatar--plasma.live-avatar--error .avatar-state-dot { background: #b46b39; }
+.live-avatar--plasma.live-avatar--paused .voice-orb-core { opacity: .72; }
+@media(prefers-reduced-motion:reduce) {
+  .live-avatar--plasma:not(.orb-motion-enabled) .voice-orb-core,.live-avatar--plasma:not(.orb-motion-enabled) .plasma-current,.live-avatar--plasma:not(.orb-motion-enabled) .plasma-wave line { transform: none !important; }
+}
+
+/* More room for the interviewer without displacing the camera or controls. */
+@media(min-width:1200px) {
+ .interview-room-live .avatar-interview { grid-template-columns:minmax(210px,.4fr) minmax(0,1fr); }
+ .interview-room-live .live-avatar--plasma .live-avatar-scene svg { height:clamp(230px,18vw,270px); }
+}
+@media(min-width:481px) and (max-width:1199px) {
+ .interview-room-live .avatar-interview { grid-template-columns:180px minmax(0,1fr); }
+ .interview-room-live .live-avatar--plasma .live-avatar-scene svg { height:210px; }
+}
+@media(max-width:480px) {
+ .interview-room-live .live-avatar--plasma .live-avatar-scene svg { height:220px; }
+}

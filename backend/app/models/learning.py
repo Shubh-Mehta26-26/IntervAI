@@ -58,7 +58,9 @@ class LearningTarget(Record, Base):
 class LearningItem(Record, Base):
     __tablename__ = "learning_items"
     plan_id: Mapped[UUID] = mapped_column(ForeignKey("learning_plans.id", ondelete="CASCADE"))
-    target_id: Mapped[UUID] = mapped_column(ForeignKey("learning_targets.id", ondelete="CASCADE"))
+    target_id: Mapped[UUID | None] = mapped_column(
+        ForeignKey("learning_targets.id", ondelete="CASCADE")
+    )
     ordinal: Mapped[int] = mapped_column(Integer)
     title: Mapped[str] = mapped_column(String(240))
     topic: Mapped[str] = mapped_column(String(120))
@@ -70,6 +72,7 @@ class LearningItem(Record, Base):
     resource_type: Mapped[str] = mapped_column(String(24), default="concept_check")
     content: Mapped[dict] = mapped_column(JSONB)
     content_revision: Mapped[int] = mapped_column(Integer, default=0)
+    check_result: Mapped[dict | None] = mapped_column(JSONB)
     status: Mapped[str] = mapped_column(String(20), default="pending")
     completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     __table_args__ = (

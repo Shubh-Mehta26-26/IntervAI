@@ -9,9 +9,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "backend"))
 
-from app.db.session import SessionFactory, engine
-from app.providers.embeddings import get_embedding_provider
-from app.services.knowledge import ingest_document, read_source
+from app.db.session import SessionFactory, engine  # noqa: E402
+from app.providers.embeddings import get_embedding_provider  # noqa: E402
+from app.services.knowledge import ingest_document, read_source  # noqa: E402
 
 
 def inputs(path: Path):

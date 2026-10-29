@@ -13,7 +13,7 @@ const routes: Record<string, string[]> = {
   "candidates/me/memory": ["GET"], "candidates/me/skills/history": ["GET"],
   "candidates/me/concepts/history": ["GET"], "candidates/me/knowledge-gaps": ["GET"],
   "candidates/me/misconceptions": ["GET"],
-  "learning/plans": ["GET", "POST"], "learning/retries": ["POST"],
+  "learning/plans": ["GET", "POST"], "learning/catalog": ["GET"], "learning/retries": ["POST"],
   "candidates/me/progress": ["GET"],
   "reports": ["GET"], "applications": ["GET", "POST"], "applications/jobs": ["GET"],
   "analytics/overview": ["GET"], "analytics/skills": ["GET"], "analytics/learning": ["GET"],
@@ -47,7 +47,7 @@ function allowed(path: string, method: string) {
   if (new RegExp(`^interviews/${id}/voice/(status|audio/${id})$`).test(path)) return method === "GET";
   if (new RegExp(`^learning/(plans|items|attempts)/${id}$`).test(path)) return method === "GET";
   if (new RegExp(`^learning/plans/${id}/start$`).test(path)) return method === "POST";
-  if (new RegExp(`^learning/items/${id}/(complete|practice|generate)$`).test(path)) return method === "POST";
+  if (new RegExp(`^learning/items/${id}/(complete|practice|generate|check)$`).test(path)) return method === "POST";
   if (new RegExp(`^learning/items/${id}/practice/${id}/submit$`).test(path)) return method === "POST";
   if (new RegExp(`^knowledge-gaps/${id}/(learning-plan|retry)$`).test(path)) return method === "POST";
   if (new RegExp(`^candidates/me/knowledge-gaps/${id}$`).test(path)) return method === "GET";

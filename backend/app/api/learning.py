@@ -10,12 +10,18 @@ from app.models.learning import LearningAttempt, LearningItem, LearningPlan
 from app.providers.embeddings import get_embedding_provider
 from app.providers.llm import get_provider
 from app.schemas.interviews import AnswerInput
-from app.schemas.learning import PlanInput, PracticeInput, RetryInput, RevisionInput
+from app.schemas.learning import PlanInput, PracticeInput, RetryInput, RevisionInput, SelfCheckInput
 from app.services import learning as service
 from app.services.interviews import candidate
 
 router = APIRouter(tags=["learning"])
 mutation = [Depends(csrf_actor)]
+
+
+@router.get("/learning/catalog")
+async def catalog(actor: CandidateActor, db: DB, job_id: UUID | None = None):
+    owner = await candidate(db, actor.user.id)
+    return await service.catalog(db, owner.id, job_id)
 
 
 @router.get("/learning/plans")
@@ -108,6 +114,15 @@ async def generate(identifier: UUID, payload: RevisionInput, actor: CandidateAct
             "learning_generation_failed",
             "Learning content could not be validated or generated. Your saved content is unchanged; try again.",
         )
+
+
+@router.post("/learning/items/{identifier}/check", dependencies=mutation)
+async def check(identifier: UUID, payload: SelfCheckInput, actor: CandidateActor, db: DB):
+    owner = await candidate(db, actor.user.id)
+    plan = await service.self_check(db, owner.id, identifier, payload)
+    await db.commit()
+    await db.refresh(plan)
+    return await service.plan_value(db, plan)
 
 
 @router.post("/learning/items/{identifier}/practice", dependencies=mutation, status_code=201)

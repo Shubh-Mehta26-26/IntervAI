@@ -2,7 +2,10 @@ export type LearningItem = {
   id: string; plan_id: string; ordinal: number; title: string; topic: string; concept: string;
   objective: string; order_reason: string; difficulty: number; effort_minutes: number;
   content_revision: number; status: string;
+  completed_at: string | null;
+  check_result: { selected_index: number; correct: boolean; feedback: string; attempts: number } | null;
   content: { explanation: string; examples: string[]; practice_question: string; hints: string[];
+    quiz?: { question: string; options: string[] };
     grounding_status: string; sources: { chunk_id: string; title: string; source: string; content: string }[] };
 };
 export type Comparison = { gap_id: string; subject: string; before: Record<string, number | null>;
@@ -12,9 +15,12 @@ export type Attempt = { id: string; kind: string; plan_id: string | null; item_i
   interview_id: string; parent_interview_id: string | null; status: string; created_at: string;
   comparison: { targets: Comparison[]; note: string } | null };
 export type LearningPlan = { id: string; job_id: string | null; title: string; objective: string; status: string; revision: number;
+  context: { mode?: string; topics?: string[]; job_title?: string | null };
   priority: number; priority_reasons: string[]; created_at: string; stale: boolean;
   progress: { completed: number; total: number }; items: LearningItem[];
   targets: { gap_id: string; memory_id: string; reasons: string[] }[]; attempts: Attempt[];
   actions: { kind: string; reason: string; created_at: string }[] };
 export type Recommendation = { gap_id: string; subject: string; topic: string; kind: string; status: string; priority: number; reasons: string[] };
 export type LearningProgress = { plans: LearningPlan[]; recommendations: Recommendation[]; attempts: Attempt[]; note: string };
+export type LearningTopic = { id: string; title: string; category: string; description: string; lesson_count: number; effort_minutes: number };
+export type LearningCatalog = { topics: LearningTopic[]; suggested: { id: string; reason: string }[]; job_title: string | null; resume_name: string | null };

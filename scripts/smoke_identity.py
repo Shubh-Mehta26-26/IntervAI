@@ -4,6 +4,7 @@ Only the account UUID created by this run is removed in the finally block.
 No real candidate records are read or modified.
 """
 
+import os
 import secrets
 from uuid import uuid4
 
@@ -14,6 +15,7 @@ from sqlalchemy.engine import make_url
 
 
 def main():
+    base = os.environ.get("INTERVAI_BASE_URL", "http://localhost:3000").rstrip("/")
     email = f"phase2-qa-{uuid4().hex}@example.com"
     password = secrets.token_urlsafe(24)
     user_id = None
@@ -24,8 +26,8 @@ def main():
     )
     try:
         with httpx.Client(
-            base_url="http://localhost:3000/api/v1",
-            headers={"Origin": "http://localhost:3000"},
+            base_url=base + "/api/v1",
+            headers={"Origin": base},
             timeout=20,
         ) as client:
             assert client.get("/candidates/me").status_code == 401
@@ -72,7 +74,7 @@ def main():
             )
             assert client.get("/auth/session").status_code == 401
             replay = httpx.get(
-                "http://localhost:8000/api/v1/candidates/me",
+                base + "/api/v1/candidates/me",
                 cookies={"intervai_session": token},
                 timeout=10,
             )

@@ -1,7 +1,7 @@
 from functools import lru_cache
 from pathlib import Path
 
-from pydantic import Field, SecretStr, model_validator
+from pydantic import Field, SecretStr, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -46,12 +46,37 @@ class Settings(BaseSettings):
     tts_api_key: SecretStr | None = None
     tts_voice: str = "en"
     tts_speed: float = Field(default=1.0, ge=0.5, le=2.0)
+    tts_style: str = (
+        "Warm, calm professional interviewer speaking to one person. "
+        "Speak slowly and conversationally, around 130 words per minute. "
+        "Leave natural pauses between sentences and before the main question. "
+        "Use gentle emphasis and curious intonation; never sound like an announcer."
+    )
     espeak_executable: str = "espeak-ng"
     speech_language: str = Field(default="en", pattern=r"^[a-z]{2}$")
+    speech_locale: str = Field(default="en-IN", pattern=r"^[a-z]{2}(-[A-Z]{2})?$")
+    speech_vocabulary: list[str] = Field(
+        default=[
+            "IntervAI",
+            "Python",
+            "PostgreSQL",
+            "pgvector",
+            "FastAPI",
+            "JavaScript",
+            "TypeScript",
+            "React",
+            "Next.js",
+            "SQL",
+            "Docker",
+            "Kubernetes",
+            "API",
+        ],
+        max_length=100,
+    )
     speech_timeout_seconds: int = Field(default=60, ge=5, le=120)
     voice_max_seconds: int = Field(default=180, ge=5, le=180)
     voice_min_speech_seconds: float = Field(default=0.4, ge=0.1, le=3)
-    voice_silence_seconds: float = Field(default=1.4, ge=0.5, le=5)
+    voice_silence_seconds: float = Field(default=3.0, ge=0.5, le=5)
     voice_audio_ttl_seconds: int = Field(default=600, ge=180, le=3600)
     speech_fillers: list[str] = ["um", "uh", "you know"]
     vision_enabled: bool = False
@@ -60,6 +85,12 @@ class Settings(BaseSettings):
     vision_detection_threshold: float = Field(default=0.55, ge=0.4, le=0.95)
     vision_absence_ms: int = Field(default=3000, ge=2000, le=10000)
     vision_confirmation_ms: int = Field(default=2000, ge=1000, le=10000)
+
+    @field_validator("storage_root")
+    @classmethod
+    def resolve_storage_root(cls, value: Path) -> Path:
+        # API and worker may start in different working directories.
+        return (value if value.is_absolute() else ROOT / value).resolve()
 
     @model_validator(mode="after")
     def production_security(self):

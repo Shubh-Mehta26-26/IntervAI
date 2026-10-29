@@ -1,6 +1,7 @@
 """Real adapters only. Tests inject providers; no production mock registry."""
 
 import asyncio
+import base64
 import io
 import json
 import shutil
@@ -10,6 +11,7 @@ import sys
 import wave
 from abc import ABC, abstractmethod
 from pathlib import Path
+from urllib.parse import quote
 
 import httpx
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -191,12 +193,139 @@ class OpenAITTS(OpenAISpeech, TextToSpeechProvider):
         )
 
 
+class GeminiSpeech:
+    name = "gemini"
+
+    def __init__(self, model, key):
+        self.model, self.key = model, key
+
+    async def request(self, body):
+        try:
+            async with httpx.AsyncClient(timeout=get_settings().speech_timeout_seconds) as client:
+                async with client.stream(
+                    "POST",
+                    "https://generativelanguage.googleapis.com/v1beta/models/"
+                    + quote(self.model, safe="")
+                    + ":generateContent",
+                    headers={"x-goog-api-key": self.key},
+                    json=body,
+                ) as response:
+                    response.raise_for_status()
+                    chunks, size = [], 0
+                    async for chunk in response.aiter_bytes():
+                        size += len(chunk)
+                        if size > 12 * 1024 * 1024:
+                            raise SpeechError("Speech provider output exceeded the limit.")
+                        chunks.append(chunk)
+            payload = json.loads(b"".join(chunks))
+            candidate = payload["candidates"][0]
+            if candidate.get("finishReason") != "STOP":
+                raise ValueError("Incomplete speech response")
+            parts = candidate["content"]["parts"]
+            if not isinstance(parts, list) or not parts:
+                raise ValueError("Missing speech response")
+            return parts
+        except (
+            httpx.HTTPError,
+            ValueError,
+            KeyError,
+            IndexError,
+            TypeError,
+            AttributeError,
+        ) as exc:
+            raise SpeechError("Speech provider request failed. Retry or type your answer.") from exc
+
+
+class GeminiSTT(GeminiSpeech, SpeechToTextProvider):
+    """Dedicated ASR in verbatim mode, never a request to improve the answer."""
+
+    async def transcribe(self, audio):
+        s = get_settings()
+        wav_info(audio, s.voice_max_seconds)
+        parts = await self.request(
+            {
+                "contents": [
+                    {
+                        "role": "user",
+                        "parts": [
+                            {
+                                "inlineData": {
+                                    "mimeType": "audio/wav",
+                                    "data": base64.b64encode(audio).decode("ascii"),
+                                }
+                            }
+                        ],
+                    }
+                ],
+                "generationConfig": {
+                    "audioTranscriptionConfig": {
+                        "mode": "VERBATIM",
+                        "languageCodes": [s.speech_locale],
+                        "customVocabulary": s.speech_vocabulary,
+                    }
+                },
+            }
+        )
+        try:
+            text = " ".join(
+                part["audioTranscription"]["text"]
+                for part in parts
+                if "audioTranscription" in part and not part.get("thought")
+            ).strip()
+            if not text or text.lower() in {"[inaudible]", "[silence]", "[no speech]"}:
+                raise ValueError("No intelligible speech")
+            # Do not invent confidence or timing: this response does not provide them.
+            return Transcript(text=text)
+        except (ValueError, KeyError, TypeError, AttributeError) as exc:
+            raise SpeechError(
+                "No clear transcript was returned. Re-record or type your answer."
+            ) from exc
+
+
+class GeminiTTS(GeminiSpeech, TextToSpeechProvider):
+    """Gemini 3.8 TTS: exact question text with delivery instructions kept separate."""
+
+    async def synthesize(self, text):
+        s = get_settings()
+        parts = await self.request(
+            {
+                "contents": [
+                    {
+                        "role": "user",
+                        "parts": [
+                            {
+                                "text": text,
+                                "speech_metadata": {"style": s.tts_style},
+                            }
+                        ],
+                    }
+                ],
+                "generationConfig": {
+                    "responseModalities": ["AUDIO"],
+                    "speechConfig": {"voiceConfig": {"voice": s.tts_voice or "Sulafat"}},
+                },
+            }
+        )
+        try:
+            files = [p["inlineData"] for p in parts if "inlineData" in p]
+            if len(files) != 1 or files[0]["mimeType"].split(";")[0] != "audio/wav":
+                raise ValueError("Expected one WAV file")
+            audio = base64.b64decode(files[0]["data"], validate=True)
+            wav_info(audio, input_audio=False)
+            return audio
+        except (ValueError, KeyError, TypeError, AttributeError) as exc:
+            raise SpeechError("Speech provider returned invalid audio.") from exc
+
+
 def speech_status(kind):
     s = get_settings()
     provider = getattr(s, f"{kind}_provider")
     model = getattr(s, f"{kind}_model")
     key = getattr(s, f"{kind}_api_key") or s.openai_api_key
     if provider == "openai":
+        ready = bool(model and key and key.get_secret_value())
+    elif provider == "gemini":
+        key = getattr(s, f"{kind}_api_key") or s.gemini_api_key
         ready = bool(model and key and key.get_secret_value())
     elif kind == "stt" and provider == "vosk":
         import importlib.util
@@ -214,6 +343,7 @@ def speech_status(kind):
     return {
         "configured": ready,
         "provider": provider or None,
+        "cloud_audio": kind == "stt" and provider in {"gemini", "openai"},
         "message": "Speech provider is available."
         if ready
         else "Voice unavailable. You can type your answer instead.",
@@ -226,6 +356,8 @@ def get_stt():
     s = get_settings()
     if s.stt_provider == "vosk":
         return VoskProvider(s.vosk_model_path, s.speech_timeout_seconds)
+    if s.stt_provider == "gemini":
+        return GeminiSTT(s.stt_model, (s.stt_api_key or s.gemini_api_key).get_secret_value())
     return OpenAISTT(s.stt_model, (s.stt_api_key or s.openai_api_key).get_secret_value())
 
 
@@ -235,6 +367,8 @@ def get_tts():
     s = get_settings()
     if s.tts_provider == "espeak":
         return EspeakProvider()
+    if s.tts_provider == "gemini":
+        return GeminiTTS(s.tts_model, (s.tts_api_key or s.gemini_api_key).get_secret_value())
     return OpenAITTS(s.tts_model, (s.tts_api_key or s.openai_api_key).get_secret_value())
 
 

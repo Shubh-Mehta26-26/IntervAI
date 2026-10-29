@@ -1,7 +1,8 @@
 // Signal-based VAD. No transcript or semantic inference is made from amplitude.
 export class ActivityDetector {
-  constructor({ min_speech_seconds = .4, silence_seconds = 1.4, max_seconds = 180 } = {}) {
+  constructor({ min_speech_seconds = .4, silence_seconds = 3, max_seconds = 180, auto_stop = true } = {}) {
     this.min = min_speech_seconds; this.silence = silence_seconds; this.max = max_seconds;
+    this.autoStop = auto_stop;
     this.total = 0; this.speech = 0; this.quiet = 0; this.noise = .003;
   }
   push(samples, rate) {
@@ -11,7 +12,7 @@ export class ActivityDetector {
     if (!active) this.noise = this.noise * .98 + rms * .02;
     this.total += seconds;
     if (active) { this.speech += seconds; this.quiet = 0; } else this.quiet += seconds;
-    return { active, rms, seconds: this.total, stop: this.total >= this.max || (this.speech >= this.min && this.quiet >= this.silence), hasSpeech: this.speech >= this.min };
+    return { active, rms, seconds: this.total, stop: this.total >= this.max || (this.autoStop && this.speech >= this.min && this.quiet >= this.silence), hasSpeech: this.speech >= this.min };
   }
 }
 

@@ -1,0 +1,9 @@
+"use client";
+
+import Link from "next/link";
+import type { Attempt } from "@/lib/learning";
+
+export function ImprovementTimeline({ attempts, compact = false }: { attempts: Attempt[]; compact?: boolean }) {
+  const retries = attempts.filter(x => x.kind === "retry").slice(0, compact ? 3 : 100);
+  return <section className="learning-timeline"><h2>Retry and improvement history</h2>{!retries.length ? <p className="subtle-copy">No retries have been recorded. Improvement comparisons appear after supported evaluations.</p> : retries.map(attempt => <article className="content-card" key={attempt.id}><div className="learning-heading"><Link className="text-link" href={`/interviews/${attempt.interview_id}`}>Retry · {new Date(attempt.created_at).toLocaleDateString()} ↗</Link><span className="status-pill">{attempt.status}</span></div>{attempt.comparison ? <>{attempt.comparison.targets.map(target => <div key={target.gap_id}><h3>{target.subject} · {target.gap_status}</h3><div className="comparison-scroll"><table><thead><tr><th>Dimension</th><th>Before</th><th>Retry</th><th>Difference</th></tr></thead><tbody>{Object.keys(target.before).map(name => <tr key={name}><td>{name.replaceAll("_", " ")}</td><td>{target.before[name]?.toFixed(2) ?? "—"}</td><td>{target.after[name]?.toFixed(2) ?? "—"}</td><td>{target.delta[name] === null ? "—" : `${target.delta[name] >= 0 ? "+" : ""}${target.delta[name].toFixed(2)}`}</td></tr>)}</tbody></table></div><p>{target.baseline_evidence_ids.length} baseline observations · {target.retry_count} supported independent retry checks</p><Link href={`/knowledge-gaps/${target.gap_id}`}>Inspect comparison evidence ↗</Link></div>)}<small>{attempt.comparison.note}</small></> : <p>Comparison is pending completion. Missing scores are never treated as zero.</p>}</article>)}</section>;
+}

@@ -1,14 +1,13 @@
 from io import BytesIO
 from uuid import uuid4
 
+from app.services.reporting import make_pdf
+from app.worker import update_heartbeat
 from conftest import Harness, run
 from pypdf import PdfReader
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.pool import NullPool
 from test_interviews import FakeProvider, create_interview, mutate, signed_in, worker
-
-from app.services.reporting import make_pdf
-from app.worker import update_heartbeat
 
 
 def test_pdf_renderer_emits_readable_pdf():

@@ -2,7 +2,6 @@ import io
 import zipfile
 
 import pytest
-
 from app.core.config import get_settings
 from app.providers.documents import DocumentError, extract_local
 from app.worker import process_one

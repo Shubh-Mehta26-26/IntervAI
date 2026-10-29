@@ -7,6 +7,22 @@ test("silence alone cannot complete a speech turn before its maximum", () => {
   for (let i = 0; i < 100; i++) assert.equal(vad.push(new Float32Array(320), 16000).stop, false);
 });
 
+test("manual finish tolerates long thinking pauses but still enforces the duration limit", () => {
+  const vad = new ActivityDetector({ auto_stop: false, max_seconds: 10 });
+  vad.push(new Float32Array(16000).fill(.08), 16000);
+  for (let i = 0; i < 8; i++) assert.equal(vad.push(new Float32Array(16000), 16000).stop, false);
+  const end = vad.push(new Float32Array(16000), 16000);
+  assert.equal(end.stop, true); assert.equal(end.hasSpeech, true);
+});
+
+test("default automatic capture allows a two-second pause within an answer", () => {
+  const vad = new ActivityDetector();
+  vad.push(new Float32Array(16000).fill(.08), 16000);
+  assert.equal(vad.push(new Float32Array(32000), 16000).stop, false);
+  assert.equal(vad.push(new Float32Array(16000).fill(.08), 16000).stop, false);
+  assert.equal(vad.push(new Float32Array(48000), 16000).stop, true);
+});
+
 test("microphone lease forbids idle capture, duplicate start, and stops streams", async () => {
   let stops = 0; const stream = { getTracks: () => [{ stop: () => stops++ }] }; const capture = new CaptureLease();
   await assert.rejects(() => capture.acquire(async () => stream, () => false), /not listening/);

@@ -62,7 +62,12 @@ class DocumentExtractor(Protocol):
 
 
 def extract_local(path: Path) -> str:
-    data = path.read_bytes()
+    try:
+        data = path.read_bytes()
+    except OSError as exc:
+        raise DocumentError(
+            "The uploaded document could not be read from storage. Please try again or upload it again."
+        ) from exc
     validate_container(data, path.suffix)
     if path.suffix == ".pdf":
         reader = PdfReader(io.BytesIO(data))

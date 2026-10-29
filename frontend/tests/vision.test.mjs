@@ -8,6 +8,8 @@ test('camera requests video only and releases every track', async () => {
   const lease = new CameraLease();
   assert.equal(await lease.start({ getUserMedia: async value => { constraints = value; return stream; } }), stream);
   assert.equal(constraints.audio, false);
+  assert.equal(constraints.video.width.ideal, 1280);
+  assert.equal(constraints.video.height.ideal, 720);
   await assert.rejects(lease.start({}), /already/);
   lease.stop(); assert.equal(stopped, 1); assert.equal(lease.stream, null);
 });
@@ -24,7 +26,7 @@ test('permission rejection clears pending lease and has clear optional fallback'
   const lease = new CameraLease();
   await assert.rejects(lease.start({ getUserMedia: async () => { throw { name: 'NotAllowedError' }; } }));
   assert.equal(lease.pending, false);
-  assert.match(cameraError({ name: 'NotAllowedError' }), /denied or revoked/);
+  assert.match(cameraError({ name: 'NotAllowedError' }), /site settings/);
   assert.match(cameraError({ name: 'NotFoundError' }), /No camera/);
   assert.match(cameraError({ name: 'NotReadableError' }), /already in use/);
 });
@@ -41,4 +43,29 @@ test('failed sampling releases gate for a later attempt', async () => {
   const gate = new SampleGate();
   await assert.rejects(gate.run(async () => { throw new Error('network'); }));
   assert.equal(gate.busy, false); assert.equal(await gate.run(async () => {}), true);
+});
+
+test('turning camera off and back on acquires a fresh stream', async () => {
+  const lease = new CameraLease();
+  let stopped = 0, acquisitions = 0;
+  const media = { getUserMedia: async () => {
+    acquisitions++;
+    return { getTracks: () => [{ stop: () => stopped++ }] };
+  } };
+  const first = await lease.start(media);
+  lease.stop();
+  const second = await lease.start(media);
+  assert.notEqual(first, second);
+  assert.equal(acquisitions, 2);
+  assert.equal(stopped, 1);
+  lease.stop();
+  assert.equal(stopped, 2);
+});
+
+test('camera can retry after permission is granted without any detector service', async () => {
+  const lease = new CameraLease();
+  await assert.rejects(lease.start({ getUserMedia: async () => { throw { name: 'NotAllowedError' }; } }));
+  const stream = { getTracks: () => [{ stop() {} }] };
+  assert.equal(await lease.start({ getUserMedia: async () => stream }), stream);
+  lease.stop();
 });
